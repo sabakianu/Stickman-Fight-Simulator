@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cda83507dbc0f44bd758c8fed2c0b8, type: 3}
+  m_Name: Elbow Strike
+  m_EditorClassIdentifier: 
+  name: Elbow Strike
+  type: 0
+  minDamage: 14
+  maxDamage: 20
+  penetration: 0.7
+  reflectPercent: 0.12
+  muscleRequired:
+  - partName: Delt
+    zone: 2
+    relativeSide: 0
+    weight: 0.4
+  - partName: Obliques
+    zone: 2
+    relativeSide: 0
+    weight: 0.4
+  - partName: Chest
+    zone: 1
+    relativeSide: 0
+    weight: 0.2
+  jointRequired:
+  - partName: Shoulder
+    zone: 2
+    relativeSide: 0
+    weight: 0.5
+  - partName: Hip
+    zone: 3
+    relativeSide: 0
+    weight: 0.3
+  - partName: Elbow
+    zone: 2
+    relativeSide: 0
+    weight: 0.2
+  boneRequired: []
+  dodgePenalty: 0
+  blockValue: 0
+  baseSpeed: 1
+  energyCost: 12
+  animatorTrigger: ElbowStrike
+  logo: {fileID: 21300000, guid: a4925719c41c93d4f9af191405949553, type: 3}
+  targetZone: 0
+  jointTargets: []
+  recoilTargets:
+  - name: Elbow
+    zone: 2
+    relativeSide: 0
+    weight: 0.7
+  - name: Shoulder
+    zone: 2
+    relativeSide: 0
+    weight: 0.3

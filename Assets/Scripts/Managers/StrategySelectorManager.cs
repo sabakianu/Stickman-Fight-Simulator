@@ -1,0 +1,192 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class StrategySelectorManager : MonoBehaviour
+{
+    public static StrategySelectorManager Instance;
+
+    [Header("Panels")]
+    [SerializeField] GameObject AvailableMoves;
+    [SerializeField] GameObject CurrentDeck;
+    [SerializeField] GameObject PlayerAbilitySelected;
+    [SerializeField] GameObject Displayed_ItemImage;
+
+    private int MaxDeck = 5;
+    private int CurrentDeckIndex = 0;
+
+    private AvalabileMoveButton[] buttons;
+    [Header("Prefabs")]
+    public GameObject SelectedAbilityButton;
+
+    [Header("DysplayElements")]
+    [SerializeField] AbilityModule attackModule;
+    [SerializeField] AbilityModule dodgeModule;
+    [SerializeField] AbilityModule blockModule;
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        buttons = AvailableMoves.GetComponentsInChildren<AvalabileMoveButton>();
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            int index = i;
+            buttons[i].SelectedMove += () =>
+        {
+            if (AddSelectedMove(index))
+            {
+                buttons[index].LockVisualState(); //succes
+            }
+            else
+            {
+                buttons[index].ResetVisualState(); //deck plin deja
+            }
+        };
+            buttons[i].Hovered += () => DisplayInfo(index);
+            // buttons[i].ExitedHovering += () => DeleteInfoDisplayed(index);
+        }
+    }
+
+    private bool AddSelectedMove(int moveIndex) //adauga buton in deck
+    {
+        if (CurrentDeckIndex >= MaxDeck) return false;
+
+        Transform moveSlotTransform = AvailableMoves.transform.GetChild(moveIndex); // transform e de pozitie si ierarhie
+        Transform SelectedButton = moveSlotTransform.transform.GetChild(0);
+        AvalabileMoveButton moveData = SelectedButton.GetComponent<AvalabileMoveButton>(); // iau ability din butonul de selectie
+
+        Transform slot = CurrentDeck.transform.GetChild(CurrentDeckIndex);
+        GameObject newButton = Instantiate(SelectedAbilityButton, slot); //creez butonul in deck ca si copil al lui slot
+
+        SelectedMoveButton newButtonData = newButton.GetComponent<SelectedMoveButton>(); //selectez butonul creat
+        newButtonData.ability = moveData.ability; //bag datele
+        newButtonData.AbilityButton = SelectedButton.GetComponent<Button>();
+        newButtonData.GetComponent<Image>().sprite = newButtonData.ability.logo; //setez imaginea
+
+        int index = CurrentDeckIndex;
+
+        newButtonData.handler = () => UnselectMove(index); //creez handler ul
+        newButtonData.UnselectMove += newButtonData.handler; //il abonez
+
+        CurrentDeckIndex++;
+        return true;
+    }
+
+    private void UnselectMove(int moveIndex) // sterge buton din deck
+    {
+        Transform ButtonSlotToDelete = CurrentDeck.transform.GetChild(moveIndex);
+        GameObject ButtonToDelete = ButtonSlotToDelete.GetChild(0).gameObject;
+        Destroy(ButtonToDelete);
+
+        for (int i = moveIndex + 1; i < CurrentDeckIndex; i++)
+        {
+            Transform currentSlot = CurrentDeck.transform.GetChild(i);
+            Transform previousSlot = CurrentDeck.transform.GetChild(i - 1);
+
+            Transform buttonToMove = currentSlot.GetChild(0);
+            SelectedMoveButton SelectedMoveButton = buttonToMove.GetComponent<SelectedMoveButton>();
+
+            SelectedMoveButton.UnselectMove -= SelectedMoveButton.handler; // dezabondez handlerul vechi
+
+            int index = i - 1;
+            SelectedMoveButton.handler = () => UnselectMove(index); //creez handler ul
+            SelectedMoveButton.UnselectMove += SelectedMoveButton.handler; //il abonez
+
+            buttonToMove.SetParent(previousSlot);
+            buttonToMove.localPosition = Vector3.zero;
+            buttonToMove.localRotation = Quaternion.identity;
+            buttonToMove.localScale = Vector3.one;
+            //aici muta si locatia(poz rot scala)
+        }
+        CurrentDeckIndex--;
+    }
+    private void DisplayInfo(int index)
+    {
+        Transform moveSlotTransform = AvailableMoves.transform.GetChild(index); // transform e de pozitie si ierarhie
+        Transform SelectedButton = moveSlotTransform.transform.GetChild(0);
+        AvalabileMoveButton moveData = SelectedButton.GetComponent<AvalabileMoveButton>(); // iau ability din butonul de selectie
+        Image img = Instance.Displayed_ItemImage.GetComponent<Image>();
+
+        img.color = new Color(1f, 1f, 1f, 1f); // alb opacitate maxima
+        img.sprite = moveData.ability.logo;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        BodyManager playerBody = (player != null) ? player.GetComponent<BodyManager>() : null;
+
+        // Stingem modulele (momentan ai doar unul, dar aici le pui pe toate)
+        attackModule.gameObject.SetActive(false);
+        dodgeModule.gameObject.SetActive(false);
+        blockModule.gameObject.SetActive(false);
+
+        // Activăm și populăm modulul corect
+        if (moveData.ability.type == AbilityType.Attack)
+        {
+            attackModule.gameObject.SetActive(true);
+            attackModule.UpdateDisplay(moveData.ability, playerBody);
+        }
+        else if (moveData.ability.type == AbilityType.Dodge)
+        {
+            dodgeModule.gameObject.SetActive(true);
+            dodgeModule.UpdateDisplay(moveData.ability, playerBody); ;
+        }
+        else if (moveData.ability.type == AbilityType.Defense)
+        {
+            blockModule.gameObject.SetActive(true);
+            blockModule.UpdateDisplay(moveData.ability, playerBody); ;
+        }
+    }
+    private void DeleteInfoDisplayed(int Index)
+    {
+        Image img = Instance.Displayed_ItemImage.GetComponent<Image>();
+
+        img.color = new Color(180f / 255f, 180f / 255f, 180f / 255f, 100f / 255f); // gri opacitate cum am setat
+        img.sprite = null;
+    }
+
+    public void ShowSelectedAbilities()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Transform display = PlayerAbilitySelected.transform.GetChild(i);
+            Image image = display.GetComponent<Image>();
+            if (i < CurrentDeckIndex)
+            {
+
+                Transform selectedAbilitySlot = CurrentDeck.transform.GetChild(i);
+                Transform selectedAbilittButton = selectedAbilitySlot.GetChild(0);
+
+                image.color = new Color(1f, 1f, 1f, 1f);
+                image.sprite = selectedAbilittButton.GetComponent<Image>().sprite;
+            }
+            else
+            {
+                image.sprite = null;
+                image.color = new Color(180f / 255f, 180f / 255f, 180f / 255f, 1f);
+            }
+        }
+    }
+
+    public List<Ability> GetCurrentDeck()
+    {
+        List<Ability> chosenAbilities = new List<Ability>();
+        for (int i = 0; i < CurrentDeck.transform.childCount; i++)
+        {
+            Transform slot = CurrentDeck.transform.GetChild(i); //ia slotul din deck
+            if (slot.childCount > 0)
+            {
+                Ability a = slot.GetChild(0).GetComponent<SelectedMoveButton>().ability; //ia abilitatea prorpiu zisa
+                chosenAbilities.Add(a);
+            }
+        }
+        return chosenAbilities;
+    }
+}

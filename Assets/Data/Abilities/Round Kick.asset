@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cda83507dbc0f44bd758c8fed2c0b8, type: 3}
+  m_Name: Round Kick
+  m_EditorClassIdentifier: 
+  name: Round Kick
+  type: 0
+  minDamage: 20
+  maxDamage: 30
+  penetration: 0.5
+  reflectPercent: 0.2
+  muscleRequired:
+  - partName: Quadriceps
+    zone: 3
+    relativeSide: 0
+    weight: 0.4
+  - partName: Obliques
+    zone: 1
+    relativeSide: 0
+    weight: 0.3
+  - partName: Glutes
+    zone: 3
+    relativeSide: 1
+    weight: 0.3
+  jointRequired:
+  - partName: Hip
+    zone: 3
+    relativeSide: 1
+    weight: 0.4
+  - partName: Hip
+    zone: 3
+    relativeSide: 0
+    weight: 0.3
+  - partName: Knee
+    zone: 3
+    relativeSide: 0
+    weight: 0.2
+  - partName: Ankle
+    zone: 3
+    relativeSide: 1
+    weight: 0.1
+  boneRequired: []
+  dodgePenalty: 0
+  blockValue: 0
+  baseSpeed: 1
+  energyCost: 30
+  animatorTrigger: RoundKick
+  logo: {fileID: 21300000, guid: 2db7c1ef79dba6049a09e52ecf2c33d9, type: 3}
+  targetZone: 1
+  jointTargets: []
+  recoilTargets:
+  - name: Tibia
+    zone: 3
+    relativeSide: 0
+    weight: 0.8
+  - name: Foot
+    zone: 3
+    relativeSide: 0
+    weight: 0.2
