@@ -48,4 +48,15 @@ public class DodgeAbilityModule : AbilityModule
         ActivateAdditionalInfo(JointBtn, ability, ability.jointRequired);
         ActivateAdditionalInfo(BoneBtn, ability, ability.boneRequired);
     }
+
+    public override void DeleteInfo()
+    {
+        title.text = "";
+        dodgeText.text = "";
+        speedText.text = "";
+        musclesText.text = "";
+        jointsText.text = "";
+        bonesText.text = "";
+        energyCost.text = "";
+    }
 }

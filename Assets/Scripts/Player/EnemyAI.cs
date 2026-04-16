@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class EnemyAI : MonoBehaviour
 {
     [Header("Abilities")]
-    public List<Ability> abilities;
+    public List<SideAbility> abilities;
 
-    [SerializeField] List<Ability> deck;
+    [SerializeField] List<SideAbility> deck;
     [Header("Panels")]
     [SerializeField] GameObject EnemyAbilityPanel;
     private PlayerScript fighter;
@@ -21,13 +21,13 @@ public class EnemyAI : MonoBehaviour
     public void ChooseDeck() // face deck ul cu 5 abilitati ccare NU se repeta
     {
         deck.Clear();
-        List<Ability> tempPool = new List<Ability>(abilities);
+        List<SideAbility> tempPool = new List<SideAbility>(abilities);
 
         for (int i = 0; i < 5; i++)
         {
             if (tempPool.Count == 0) break;
             int randomIndex = Random.Range(0, tempPool.Count);
-            Ability ability = tempPool[randomIndex];
+            SideAbility ability = tempPool[randomIndex];
 
             deck.Add(ability);
             tempPool.RemoveAt(randomIndex);
@@ -52,7 +52,7 @@ public class EnemyAI : MonoBehaviour
 
             if (i < deck.Count)
             {
-                image.sprite = deck[i].logo;
+                image.sprite = deck[i].ability.logo;
                 image.color = Color.white;
             }
             else

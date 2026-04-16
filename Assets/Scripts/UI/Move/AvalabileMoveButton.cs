@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AvalabileMoveButton : MonoBehaviour
+public class AvalabileMoveButton : MonoBehaviour, IPointerClickHandler
 {
     public Ability ability;
     private Button btn;
@@ -14,6 +14,7 @@ public class AvalabileMoveButton : MonoBehaviour
     public event Action SelectedMove;
     public event Action Hovered;
     public event Action ExitedHovering;
+    public event Action RightClicked;
     private void Start()
     {
         btn = GetComponent<Button>();
@@ -41,5 +42,13 @@ public class AvalabileMoveButton : MonoBehaviour
     public void DataDescriptionExit()
     {
         ExitedHovering?.Invoke();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            RightClicked?.Invoke();
+        }
     }
 }

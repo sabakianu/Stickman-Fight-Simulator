@@ -45,4 +45,14 @@ public class BlockAbilityModule : AbilityModule
         ActivateAdditionalInfo(BoneBtn, ability, ability.boneRequired);
     }
 
+    public override void DeleteInfo()
+    {
+        title.text = "";
+        blockText.text = "";
+        speedText.text = "";
+        musclesText.text = "";
+        jointsText.text = "";
+        bonesText.text = "";
+        energyCost.text = "";
+    }
 }

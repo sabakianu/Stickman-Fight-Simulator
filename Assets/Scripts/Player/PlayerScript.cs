@@ -36,22 +36,10 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public Ability currentMove;
+    public SideAbility currentMove;
     public void attack(int sideInt) //ataca inamicul
     {
-        AttackSide side = (AttackSide)sideInt;
-        bool isLeft;
-
-        if (side == AttackSide.Left)
-        {
-            isLeft = true;
-            Debug.Log("Stanga");
-        }
-        else
-        {
-            isLeft = false;
-            Debug.Log("Dreapta");
-        }
+        bool isLeft = currentMove.isLeft;
 
         Collider2D[] enemiesObject = Physics2D.OverlapCircleAll(AttackPoint.transform.position, radius, enemies);
         foreach (Collider2D enemyObject in enemiesObject)
@@ -62,14 +50,14 @@ public class PlayerScript : MonoBehaviour
             if (enemyBody != null && currentMove != null)
             {
 
-                float hitChance = myBody.combat.CalculateHitChance(currentMove, isLeft, enemyBody); // sansa de a lovi
+                float hitChance = myBody.combat.CalculateHitChance(currentMove.ability, isLeft, enemyBody); // sansa de a lovi
 
                 if (UnityEngine.Random.value <= hitChance)
                 {
-                    float myEfficiency = myBody.combat.CalculateTotalPower(currentMove, isLeft); // eficienta muschilor
-                    enemyBody.combat.ApplyHitStats(currentMove, isLeft, myEfficiency, myBody); // scadem viata in inamic
+                    float myEfficiency = myBody.combat.CalculateTotalPower(currentMove.ability, isLeft); // eficienta muschilor
+                    enemyBody.combat.ApplyHitStats(currentMove.ability, isLeft, myEfficiency, myBody); // scadem viata in inamic
 
-                    Debug.Log($"<color=green>[HIT]</color> {currentMove.name} a nimerit! (Șansă: {hitChance * 100}%)");
+                    Debug.Log($"<color=green>[HIT]</color> {currentMove.ability.name} a nimerit! (Șansă: {hitChance * 100}%)");
                 }
                 else
                 {
@@ -87,7 +75,7 @@ public class PlayerScript : MonoBehaviour
         Gizmos.DrawWireSphere(AttackPoint.transform.position, radius);
     }
 
-    public void StartAutoCombat(List<Ability> deck)
+    public void StartAutoCombat(List<SideAbility> deck)
     {
         if (combatRoutine != null) //elimina courutina veche sa facem loc la deck ul curent
         {
@@ -97,7 +85,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    private IEnumerator CombatRoutine(List<Ability> deck)
+    private IEnumerator CombatRoutine(List<SideAbility> deck)
     {
         if (deck.Count == 0) yield break;
         BodyManager myBody = GetComponent<BodyManager>();
@@ -108,7 +96,7 @@ public class PlayerScript : MonoBehaviour
 
         while (timer < duration)
         {
-            bool canAttack = deck.Exists(m => myBody.vitals.currentStamina >= m.energyCost);
+            bool canAttack = deck.Exists(m => myBody.vitals.currentStamina >= m.ability.energyCost);
 
             if (canAttack)
             {
@@ -116,39 +104,39 @@ public class PlayerScript : MonoBehaviour
                 int randomIndex = UnityEngine.Random.Range(0, deck.Count);
                 currentMove = deck[randomIndex];
 
-                while (myBody.vitals.staminaReq(currentMove.energyCost) == false)
+                while (myBody.vitals.staminaReq(currentMove.ability.energyCost) == false)
                 {
                     randomIndex = UnityEngine.Random.Range(0, deck.Count);
                     currentMove = deck[randomIndex];
                 }
 
-                if (currentMove.type == AbilityType.Dodge)
+                if (currentMove.ability.type == AbilityType.Dodge)
                 {
-                    float dodgePenalty = myBody.combat.CalculateDodgeEffectiveness(currentMove, false);
+                    float dodgePenalty = myBody.combat.CalculateDodgeEffectiveness(currentMove.ability, currentMove.isLeft);
                     myBody.combat.setDodgePenalty(dodgePenalty);
 
-                    animator.SetTrigger(currentMove.animatorTrigger);
+                    animator.SetTrigger(currentMove.ability.animatorTrigger);
 
                     yield return new WaitForSeconds(attackCooldown);
                     myBody.combat.setDodgePenalty(0f);
                 }
-                else if (currentMove.type == AbilityType.Defense)
+                else if (currentMove.ability.type == AbilityType.Defense)
                 {
-                    myBody.combat.setBlockValue(currentMove.blockValue);
-                    animator.SetBool(currentMove.animatorTrigger, true);
+                    myBody.combat.setBlockValue(currentMove.ability.blockValue);
+                    animator.SetBool(currentMove.ability.animatorTrigger, true);
 
                     yield return new WaitForSeconds(attackCooldown);
-                    animator.SetBool(currentMove.animatorTrigger, false);
+                    animator.SetBool(currentMove.ability.animatorTrigger, false);
 
                     myBody.combat.setBlockValue(0);
                 }
                 else
                 {
-                    float speed = myBody.combat.CalculateAttackSpeed(currentMove, false);
-                    animator.SetFloat("AttackSpeed", currentMove.baseSpeed * speed);
+                    float speed = myBody.combat.CalculateAttackSpeed(currentMove.ability, currentMove.isLeft);
+                    animator.SetFloat("AttackSpeed", currentMove.ability.baseSpeed * speed);
 
                     // seteaza triggerul pt abilitate
-                    animator.SetTrigger(currentMove.animatorTrigger);
+                    animator.SetTrigger(currentMove.ability.animatorTrigger);
                 }
             }
 

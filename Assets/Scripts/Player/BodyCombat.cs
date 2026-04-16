@@ -29,7 +29,6 @@ public class BodyCombat : MonoBehaviour
         float remainedDamage = damage * (1f - blockValue);
         damage = remainedDamage;
 
-        //Debug.Log($"[DEBUG] damage dupa: {damage}");
 
         float jointDamageApplied = 0;
         if (move.jointTargets != null && move.jointTargets.Count > 0)
@@ -250,8 +249,6 @@ public class BodyCombat : MonoBehaviour
             finalChance = 0f;
         }
 
-        //Debug.Log($"[DEBUG] RAW hit cahnce: {rawChance}");
-        //Debug.Log($"[DEBUG] Final hit cahnce: {finalChance}");
         return finalChance;
     }
 

@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         StrategyPanel.HidePanel();
         Time.timeScale = 1f;
 
-        List<Ability> activeMoves = StrategySelectorManager.Instance.GetCurrentDeck();
+        List<SideAbility> activeMoves = StrategySelectorManager.Instance.GetCurrentDeck();
         player.StartAutoCombat(activeMoves);
         enemy.StartEnemyRound();
         UpdateGameState(GameState.Running);

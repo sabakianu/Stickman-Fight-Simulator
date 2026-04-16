@@ -52,4 +52,15 @@ public class AttackAbilityModule : AbilityModule
         ActivateAdditionalInfo(JointBtn, ability, ability.jointRequired);
     }
 
+    public override void DeleteInfo()
+    {
+        title.text = "";
+        damageText.text = "";
+        hitChanceText.text = "";
+        speedText.text = "";
+        targetZoneText.text = "";
+        musclesText.text = "";
+        jointsText.text = "";
+        energyCost.text = "";
+    }
 }

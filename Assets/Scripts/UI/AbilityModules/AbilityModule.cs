@@ -33,4 +33,6 @@ public abstract class AbilityModule : MonoBehaviour
             });
         }
     }
+
+    public abstract void DeleteInfo();
 }

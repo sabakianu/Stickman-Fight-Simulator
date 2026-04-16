@@ -6,6 +6,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class SideAbility
+{
+    public Ability ability;
+    public bool isLeft;
+}
+
 public class StrategySelectorManager : MonoBehaviour
 {
     public static StrategySelectorManager Instance;
@@ -15,6 +22,9 @@ public class StrategySelectorManager : MonoBehaviour
     [SerializeField] GameObject CurrentDeck;
     [SerializeField] GameObject PlayerAbilitySelected;
     [SerializeField] GameObject Displayed_ItemImage;
+
+    [Header("Toggle")]
+    [SerializeField] Toggle toggle;
 
     private int MaxDeck = 5;
     private int CurrentDeckIndex = 0;
@@ -28,7 +38,7 @@ public class StrategySelectorManager : MonoBehaviour
     [SerializeField] AbilityModule dodgeModule;
     [SerializeField] AbilityModule blockModule;
 
-
+    private int pinnedIndex = -1; // -1 ca nu e nmk pinned , daca da e index
     private void Awake()
     {
         Instance = this;
@@ -40,6 +50,8 @@ public class StrategySelectorManager : MonoBehaviour
         for (int i = 0; i < buttons.Length; i++)
         {
             int index = i;
+            buttons[i].RightClicked += () => TogglePin(index);
+
             buttons[i].SelectedMove += () =>
         {
             if (AddSelectedMove(index))
@@ -51,11 +63,37 @@ public class StrategySelectorManager : MonoBehaviour
                 buttons[index].ResetVisualState(); //deck plin deja
             }
         };
-            buttons[i].Hovered += () => DisplayInfo(index);
-            // buttons[i].ExitedHovering += () => DeleteInfoDisplayed(index);
+
+
+            buttons[i].Hovered += () =>
+        {
+            if (pinnedIndex != -1 && pinnedIndex != index) //daca avem ceva pinned sa nu schimbam
+                return;
+
+            DisplayInfo(index);
+        };
+
+            buttons[i].ExitedHovering += () =>
+            {
+                if (pinnedIndex != -1) //daca avem ceva pinned sa nu scoatem
+                    return;
+
+                DeleteInfoDisplayed(index);
+            };
         }
     }
-
+    private void TogglePin(int index)
+    {
+        if (pinnedIndex == index)
+        {
+            pinnedIndex = -1;
+        }
+        else
+        {
+            pinnedIndex = index;
+            DisplayInfo(index);
+        }
+    }
     private bool AddSelectedMove(int moveIndex) //adauga buton in deck
     {
         if (CurrentDeckIndex >= MaxDeck) return false;
@@ -69,6 +107,8 @@ public class StrategySelectorManager : MonoBehaviour
 
         SelectedMoveButton newButtonData = newButton.GetComponent<SelectedMoveButton>(); //selectez butonul creat
         newButtonData.ability = moveData.ability; //bag datele
+        newButtonData.isLeft = toggle.isOn; // valoarea toggle ului cand am selectat
+        newButtonData.sideIndicator.text = newButtonData.isLeft ? "L" : "R";
         newButtonData.AbilityButton = SelectedButton.GetComponent<Button>();
         newButtonData.GetComponent<Image>().sprite = newButtonData.ability.logo; //setez imaginea
 
@@ -122,13 +162,11 @@ public class StrategySelectorManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         BodyManager playerBody = (player != null) ? player.GetComponent<BodyManager>() : null;
 
-        // Stingem modulele (momentan ai doar unul, dar aici le pui pe toate)
         attackModule.gameObject.SetActive(false);
         dodgeModule.gameObject.SetActive(false);
         blockModule.gameObject.SetActive(false);
 
-        // Activăm și populăm modulul corect
-        if (moveData.ability.type == AbilityType.Attack)
+        if (moveData.ability.type == AbilityType.Attack) // aici panelul in fucntie de abilitate
         {
             attackModule.gameObject.SetActive(true);
             attackModule.UpdateDisplay(moveData.ability, playerBody);
@@ -150,6 +188,10 @@ public class StrategySelectorManager : MonoBehaviour
 
         img.color = new Color(180f / 255f, 180f / 255f, 180f / 255f, 100f / 255f); // gri opacitate cum am setat
         img.sprite = null;
+
+        attackModule.DeleteInfo();
+        dodgeModule.DeleteInfo();
+        blockModule.DeleteInfo();
     }
 
     public void ShowSelectedAbilities()
@@ -158,33 +200,42 @@ public class StrategySelectorManager : MonoBehaviour
         {
             Transform display = PlayerAbilitySelected.transform.GetChild(i);
             Image image = display.GetComponent<Image>();
+            TMPro.TextMeshProUGUI sideText = display.GetComponentInChildren<TMPro.TextMeshProUGUI>(); //textul de side
             if (i < CurrentDeckIndex)
             {
 
                 Transform selectedAbilitySlot = CurrentDeck.transform.GetChild(i);
-                Transform selectedAbilittButton = selectedAbilitySlot.GetChild(0);
+                Transform selectedAbilityButton = selectedAbilitySlot.GetChild(0);
+
+                SelectedMoveButton btnData = selectedAbilityButton.GetComponent<SelectedMoveButton>();
 
                 image.color = new Color(1f, 1f, 1f, 1f);
-                image.sprite = selectedAbilittButton.GetComponent<Image>().sprite;
+                image.sprite = selectedAbilityButton.GetComponent<Image>().sprite;
+                sideText.text = btnData.isLeft ? "L" : "R";
             }
             else
             {
                 image.sprite = null;
                 image.color = new Color(180f / 255f, 180f / 255f, 180f / 255f, 1f);
+                sideText.text = "";
             }
         }
     }
 
-    public List<Ability> GetCurrentDeck()
+    public List<SideAbility> GetCurrentDeck()
     {
-        List<Ability> chosenAbilities = new List<Ability>();
+        List<SideAbility> chosenAbilities = new List<SideAbility>();
         for (int i = 0; i < CurrentDeck.transform.childCount; i++)
         {
             Transform slot = CurrentDeck.transform.GetChild(i); //ia slotul din deck
             if (slot.childCount > 0)
             {
-                Ability a = slot.GetChild(0).GetComponent<SelectedMoveButton>().ability; //ia abilitatea prorpiu zisa
-                chosenAbilities.Add(a);
+                SelectedMoveButton btnData = slot.GetChild(0).GetComponent<SelectedMoveButton>();
+
+                SideAbility move = new SideAbility();
+                move.ability = btnData.ability; //ia abilitatea prorpiu zisa
+                move.isLeft = btnData.isLeft;
+                chosenAbilities.Add(move);
             }
         }
         return chosenAbilities;
