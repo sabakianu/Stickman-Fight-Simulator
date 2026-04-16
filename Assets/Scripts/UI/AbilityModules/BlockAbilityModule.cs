@@ -13,13 +13,13 @@ public class BlockAbilityModule : AbilityModule
     [SerializeField] TextMeshProUGUI jointsText;
     [SerializeField] TextMeshProUGUI bonesText;
     [SerializeField] TextMeshProUGUI energyCost;
-    public override void UpdateDisplay(Ability ability, BodyManager playerBody)
+    public override void UpdateDisplay(Ability ability, BodyManager playerBody, bool isLeft)
     {
         float viteza = 1.0f;
 
         if (playerBody != null)
         {
-            viteza = playerBody.combat.CalculateAttackSpeed(ability, false);
+            viteza = playerBody.combat.CalculateAttackSpeed(ability, isLeft);
         }
 
         string mList = "Muscles: " + string.Join(", ", ability.muscleRequired.ConvertAll(r => r.partName));

@@ -16,7 +16,7 @@ public class AttackAbilityModule : AbilityModule
     [SerializeField] TextMeshProUGUI jointsText;
     [SerializeField] TextMeshProUGUI energyCost;
 
-    public override void UpdateDisplay(Ability ability, BodyManager playerBody)
+    public override void UpdateDisplay(Ability ability, BodyManager playerBody, bool isLeft)
     {
         float eficienta = 1.0f;
         float viteza = 1.0f;
@@ -24,9 +24,9 @@ public class AttackAbilityModule : AbilityModule
 
         if (playerBody != null)
         {
-            eficienta = playerBody.combat.CalculateTotalPower(ability, false);
-            hitChance = playerBody.combat.CalculateHitChance(ability, false, null);
-            viteza = playerBody.combat.CalculateAttackSpeed(ability, false);
+            eficienta = playerBody.combat.CalculateTotalPower(ability, isLeft);
+            hitChance = playerBody.combat.CalculateHitChance(ability, isLeft, null);
+            viteza = playerBody.combat.CalculateAttackSpeed(ability, isLeft);
         }
 
         string mList = "Muscles: " + string.Join(", ", ability.muscleRequired.ConvertAll(r => r.partName));

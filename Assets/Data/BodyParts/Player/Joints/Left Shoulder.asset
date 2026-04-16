@@ -18,12 +18,12 @@ MonoBehaviour:
   painLevel: 0
   painCoefficient: 1.8
   initialDurability: 0.7
-  currentDurability: 0
+  currentDurability: 0.7
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0
   initialMobility: 1
-  currentMobility: 0
+  currentMobility: 1
   initialStability: 0.4
-  currentStability: 0
+  currentStability: 0.4
   state: 0

@@ -9,7 +9,7 @@ public abstract class AbilityModule : MonoBehaviour
     [SerializeField] GameObject InfoPanel;
 
     protected List<BodyPartRequirement> currentListDisplayed;
-    public abstract void UpdateDisplay(Ability ability, BodyManager playerBody);
+    public abstract void UpdateDisplay(Ability ability, BodyManager playerBody, bool isLeft);
 
     protected void ActivateAdditionalInfo(Button btn, Ability ability, List<BodyPartRequirement> req)
     {

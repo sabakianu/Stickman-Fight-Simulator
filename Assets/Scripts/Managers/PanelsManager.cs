@@ -9,7 +9,10 @@ public class PanelsManager : MonoBehaviour
     [SerializeField] GameObject MusclePanel;
     [SerializeField] GameObject BonePanel;
     [SerializeField] GameObject Joints_OrgansPanel;
+
+    [Header("Panels Secundare")]
     [SerializeField] GameObject EnemyPanel;
+    [SerializeField] GameObject AdditionalInfoPanel;
 
 
     [Header("ToolTip")]
@@ -27,6 +30,7 @@ public class PanelsManager : MonoBehaviour
         BonePanel.SetActive(false);
         Joints_OrgansPanel.SetActive(false);
         EnemyPanel.SetActive(false);
+        AdditionalInfoPanel.SetActive(false);
         BoneShow = false;
         MuscleShow = false;
         Joints_OrgansShow = false;
@@ -52,6 +56,11 @@ public class PanelsManager : MonoBehaviour
                 ToggleJoints_OrgansPanel();
             }
         }
+        else
+        {
+            CloseAdditionalInfoPanel();
+        }
+
         if (BoneShow == false && MuscleShow == false && Joints_OrgansShow == false)
         {
             ToolTip.Toggle(false);
@@ -80,6 +89,7 @@ public class PanelsManager : MonoBehaviour
         {
             BonePanel.SetActive(true);
             BoneShow = true;
+            CloseAdditionalInfoPanel();
             ToolTip.SetBoneSize();
         }
         else
@@ -107,6 +117,7 @@ public class PanelsManager : MonoBehaviour
         {
             MusclePanel.SetActive(true);
             MuscleShow = true;
+            CloseAdditionalInfoPanel();
             ToolTip.SetMuscleSize();
         }
         else
@@ -134,6 +145,7 @@ public class PanelsManager : MonoBehaviour
         {
             Joints_OrgansPanel.SetActive(true);
             Joints_OrgansShow = true;
+            CloseAdditionalInfoPanel();
             ToolTip.SetJointOrganSize();
         }
         else
@@ -154,6 +166,12 @@ public class PanelsManager : MonoBehaviour
             EnemyPanel.SetActive(true);
             EnemyShow = true;
         }
+    }
+
+    private void CloseAdditionalInfoPanel()
+    {
+
+        AdditionalInfoPanel.SetActive(false);
     }
 }
 

@@ -21,7 +21,12 @@ public class StrategySelectorManager : MonoBehaviour
     [SerializeField] GameObject AvailableMoves;
     [SerializeField] GameObject CurrentDeck;
     [SerializeField] GameObject PlayerAbilitySelected;
+    [SerializeField] GameObject AdditionalInfo;
+
+    [Header("Other UI")]
     [SerializeField] GameObject Displayed_ItemImage;
+    [SerializeField] GameObject PinIcon;
+    [SerializeField] GameObject ToggleIcon;
 
     [Header("Toggle")]
     [SerializeField] Toggle toggle;
@@ -81,17 +86,30 @@ public class StrategySelectorManager : MonoBehaviour
                 DeleteInfoDisplayed(index);
             };
         }
+
+        toggle.onValueChanged.AddListener((isOn) =>
+        {
+            // asta sa isi dea "refresh" cand apaasam toggle
+            if (pinnedIndex != -1)
+            {
+                DisplayInfo(pinnedIndex);
+            }
+        });
     }
     private void TogglePin(int index)
     {
         if (pinnedIndex == index)
         {
             pinnedIndex = -1;
+            PinIcon.SetActive(false);
+            AdditionalInfo.SetActive(false);
         }
         else
         {
             pinnedIndex = index;
+            PinIcon.SetActive(true);
             DisplayInfo(index);
+            AdditionalInfo.SetActive(false);
         }
     }
     private bool AddSelectedMove(int moveIndex) //adauga buton in deck
@@ -158,6 +176,7 @@ public class StrategySelectorManager : MonoBehaviour
 
         img.color = new Color(1f, 1f, 1f, 1f); // alb opacitate maxima
         img.sprite = moveData.ability.logo;
+        bool isLeft = toggle.isOn;
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         BodyManager playerBody = (player != null) ? player.GetComponent<BodyManager>() : null;
@@ -169,18 +188,20 @@ public class StrategySelectorManager : MonoBehaviour
         if (moveData.ability.type == AbilityType.Attack) // aici panelul in fucntie de abilitate
         {
             attackModule.gameObject.SetActive(true);
-            attackModule.UpdateDisplay(moveData.ability, playerBody);
+            attackModule.UpdateDisplay(moveData.ability, playerBody, isLeft);
         }
         else if (moveData.ability.type == AbilityType.Dodge)
         {
             dodgeModule.gameObject.SetActive(true);
-            dodgeModule.UpdateDisplay(moveData.ability, playerBody); ;
+            dodgeModule.UpdateDisplay(moveData.ability, playerBody, isLeft);
         }
         else if (moveData.ability.type == AbilityType.Defense)
         {
             blockModule.gameObject.SetActive(true);
-            blockModule.UpdateDisplay(moveData.ability, playerBody); ;
+            blockModule.UpdateDisplay(moveData.ability, playerBody, isLeft); ;
         }
+
+        ToggleIcon.SetActive(true);
     }
     private void DeleteInfoDisplayed(int Index)
     {
@@ -192,6 +213,9 @@ public class StrategySelectorManager : MonoBehaviour
         attackModule.DeleteInfo();
         dodgeModule.DeleteInfo();
         blockModule.DeleteInfo();
+
+        ToggleIcon.SetActive(false);
+        AdditionalInfo.SetActive(false);
     }
 
     public void ShowSelectedAbilities()

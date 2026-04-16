@@ -14,15 +14,15 @@ public class DodgeAbilityModule : AbilityModule
     [SerializeField] TextMeshProUGUI jointsText;
     [SerializeField] TextMeshProUGUI bonesText;
     [SerializeField] TextMeshProUGUI energyCost;
-    public override void UpdateDisplay(Ability ability, BodyManager playerBody)
+    public override void UpdateDisplay(Ability ability, BodyManager playerBody, bool isLeft)
     {
         float eficienta = 1.0f;
         float viteza = 1.0f;
 
         if (playerBody != null)
         {
-            eficienta = playerBody.combat.CalculateDodgeEffectiveness(ability, false);
-            viteza = playerBody.combat.CalculateAttackSpeed(ability, false);
+            eficienta = playerBody.combat.CalculateDodgeEffectiveness(ability, isLeft);
+            viteza = playerBody.combat.CalculateAttackSpeed(ability, isLeft);
         }
 
         string mList = "Muscles: " + string.Join(", ", ability.muscleRequired.ConvertAll(r => r.partName));
