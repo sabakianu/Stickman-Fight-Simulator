@@ -14747,7 +14747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilities:
-  - ability: {fileID: 11400000, guid: fb3b53487b18c344a8897a674a51638a, type: 2}
+  - ability: {fileID: 11400000, guid: 24db5a2f6cd69984eb6dbfb2c5d41a20, type: 2}
     isLeft: 1
   deck:
   - ability: {fileID: 0}

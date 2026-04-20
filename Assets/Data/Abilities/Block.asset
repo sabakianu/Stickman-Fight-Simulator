@@ -18,9 +18,25 @@ MonoBehaviour:
   maxDamage: 0
   penetration: 0
   reflectPercent: 0
-  muscleRequired: []
+  muscleRequired:
+  - partName: Biceps
+    zone: 2
+    relativeSide: 0
+    weight: 0.4
+  - partName: Delt
+    zone: 2
+    relativeSide: 0
+    weight: 0.3
+  - partName: Forearm
+    zone: 2
+    relativeSide: 0
+    weight: 0.3
   jointRequired: []
-  boneRequired: []
+  boneRequired:
+  - partName: Radius
+    zone: 2
+    relativeSide: 0
+    weight: 1
   dodgePenalty: 0
   blockValue: 0.7
   baseSpeed: 1
@@ -29,4 +45,16 @@ MonoBehaviour:
   logo: {fileID: 21300000, guid: 85a5c23075fd6a44b8f947a4d9943388, type: 3}
   targetZone: 0
   jointTargets: []
-  recoilTargets: []
+  recoilTargets:
+  - name: Forearm
+    zone: 2
+    relativeSide: 0
+    weight: 0.6
+  - name: Biceps
+    zone: 2
+    relativeSide: 0
+    weight: 0.3
+  - name: Delt
+    zone: 2
+    relativeSide: 0
+    weight: 0.1

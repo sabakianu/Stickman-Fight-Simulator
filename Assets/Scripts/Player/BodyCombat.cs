@@ -8,6 +8,9 @@ public class BodyCombat : MonoBehaviour
     private float dodgePenalty = 0f;
     private BodyManager body;
     private BodyVitals vitals;
+
+    private Ability activeBlockAbility;
+
     void Awake()
     {
         body = GetComponent<BodyManager>();
@@ -16,19 +19,28 @@ public class BodyCombat : MonoBehaviour
     public void ApplyHitStats(Ability move, bool isLeft, float attackerEfficiency, BodyManager attacker) //afecteaza zonele jucatorului
     {
         BodyZoneContainer target = body.FindBodyPart(move.targetZone, isLeft);
-        float damage = Random.Range(move.minDamage, move.maxDamage) * attackerEfficiency;
+        float rawDamage = Random.Range(move.minDamage, move.maxDamage) * attackerEfficiency;
         float penetration = move.penetration;
         // luam datele zona , damage penetration
 
-        float recoil = damage * move.reflectPercent;
+        float recoil = rawDamage * move.reflectPercent;
         if (recoil > 0)
         {
             attacker.combat.ApplyRecoil(recoil, move, isLeft);
         }
 
-        float remainedDamage = damage * (1f - blockValue);
-        damage = remainedDamage;
+        if (blockValue > 0 && activeBlockAbility != null && activeBlockAbility.targetZone == move.targetZone)
+        {
+            // aici pt block
+            float mitigation = CalculateBlockEffectiveness(move, rawDamage, activeBlockAbility);
 
+            float absorbedDamage = rawDamage * mitigation;
+            ApplyBlockImpact(absorbedDamage, activeBlockAbility);
+
+            rawDamage -= absorbedDamage;
+        }
+
+        float damage = Mathf.Max(0, rawDamage); ;
 
         float jointDamageApplied = 0;
         if (move.jointTargets != null && move.jointTargets.Count > 0)
@@ -91,6 +103,34 @@ public class BodyCombat : MonoBehaviour
         return overflow;
     }
 
+    private void ApplyBlockImpact(float totalImpact, Ability ability)
+    {
+        foreach (bool side in new bool[] { true, false })
+        {
+            float sideImpact = totalImpact / 2f;
+
+            foreach (var target in ability.recoilTargets)
+            {
+                BodyZoneContainer zone = body.GetZoneRequirement(target.zone, target.relativeSide, side);
+                if (zone != null)
+                {
+                    float distributedDamage = sideImpact * target.weight;
+
+                    var joints = zone.joints.FindAll(j => j != null && j.name.Contains(target.name));
+                    foreach (var j in joints)
+                        j.takeDamage(distributedDamage / joints.Count);
+
+                    var muscles = zone.muscles.FindAll(m => m != null && m.name.Contains(target.name));
+                    foreach (var m in muscles)
+                        m.takeDamage(distributedDamage / muscles.Count);
+
+                    var bones = zone.bones.FindAll(b => b != null && b.name.Contains(target.name));
+                    foreach (var b in bones)
+                        b.takeDamage(distributedDamage / bones.Count);
+                }
+            }
+        }
+    }
     public void ApplyRecoil(float totalRecoilForce, Ability move, bool isLeft)
     {
         foreach (var target in move.recoilTargets)
@@ -304,9 +344,70 @@ public class BodyCombat : MonoBehaviour
         return Mathf.Max(0.1f, finalDodge); // lasam din mila minim 10% ferire
     }
 
-    public void setBlockValue(float block)
+    public float CalculateBlockEffectiveness(Ability attack, float attackerDamage, Ability ability)
+    {
+        float muscleResistance = 0f;
+        float boneResistance = 0f;
+
+        if (ability.muscleRequired != null)
+        {
+            foreach (var req in ability.muscleRequired)
+            {
+                foreach (bool side in new bool[] { true, false })
+                {
+                    BodyZoneContainer zone = body.GetZoneRequirement(req.zone, req.relativeSide, side);
+
+                    if (zone != null)
+                    {
+                        MusclePartData muscle = zone.muscles.Find(m => m != null && m.name.Contains(req.partName));
+                        if (muscle != null)
+                        {
+                            muscleResistance += muscle.getStrength() * muscle.getCurrentDurability() * req.weight;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (ability.boneRequired != null)
+        {
+            foreach (var req in ability.boneRequired)
+            {
+                foreach (bool side in new bool[] { true, false })
+                {
+                    BodyZoneContainer zone = body.GetZoneRequirement(req.zone, req.relativeSide, side);
+
+                    if (zone != null)
+                    {
+                        BonePartData bone = zone.bones.Find(b => b != null && b.name.Contains(req.partName));
+                        if (bone != null)
+                        {
+                            boneResistance += bone.getCurrentDurability() * req.weight;
+                        }
+                    }
+                }
+            }
+        }
+
+        float finalRezistance = (muscleResistance + boneResistance) * (ability.blockValue * 13f); ;
+        float eficienta = 1.0f;
+
+        if (attackerDamage > finalRezistance && finalRezistance > 0)
+        {
+            // block spart
+            eficienta = finalRezistance / attackerDamage;
+            Debug.Log($"BLOCK BROKEN! Atac: {attackerDamage} | Rezistență: {finalRezistance}");
+        }
+
+        // DamageFinal = BaseDamage * (1 - (BlockValue * Efficiency))
+        float finalBlock = ability.blockValue * eficienta;
+
+        return Mathf.Clamp(finalBlock, 0.05f, 0.95f); // min 5%, max 95% 
+    }
+    public void setBlockValue(float block, Ability ability = null)
     {
         blockValue = block;
+        activeBlockAbility = ability;
     }
     public float getBlockValue()
     {

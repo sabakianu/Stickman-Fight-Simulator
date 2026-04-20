@@ -90,14 +90,16 @@ public class Ability : ScriptableObject
 
     [Header("Targeting")]
 
-    [ShowIf("type", AbilityType.Attack)]
+    [ShowIf("ShowShowDamageDistribution")]
     public BodyZone targetZone;
 
     [ShowIf("type", AbilityType.Attack)]
     public List<JointDamageTarget> jointTargets;
 
-    [ShowIf("type", AbilityType.Attack)]
+    [ShowIf("ShowShowDamageDistribution")]
     public List<RecoilTarget> recoilTargets = new List<RecoilTarget>(); // unde se duce recoilul
+
+    private bool ShowShowDamageDistribution => type == AbilityType.Attack || type == AbilityType.Defense;
 }
 public enum BodyZone
 {

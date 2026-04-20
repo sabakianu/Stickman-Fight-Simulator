@@ -108,4 +108,9 @@ public class BodyPartData : ScriptableObject
     {
         return painLevel;
     }
+
+    public float getCurrentDurability()
+    {
+        return currentDurability;
+    }
 }

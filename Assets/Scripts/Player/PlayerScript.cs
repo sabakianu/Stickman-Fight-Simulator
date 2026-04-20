@@ -56,8 +56,6 @@ public class PlayerScript : MonoBehaviour
                 {
                     float myEfficiency = myBody.combat.CalculateTotalPower(currentMove.ability, isLeft); // eficienta muschilor
                     enemyBody.combat.ApplyHitStats(currentMove.ability, isLeft, myEfficiency, myBody); // scadem viata in inamic
-
-                    Debug.Log($"<color=green>[HIT]</color> {currentMove.ability.name} a nimerit! (Șansă: {hitChance * 100}%)");
                 }
                 else
                 {
@@ -122,13 +120,13 @@ public class PlayerScript : MonoBehaviour
                 }
                 else if (currentMove.ability.type == AbilityType.Defense)
                 {
-                    myBody.combat.setBlockValue(currentMove.ability.blockValue);
+                    myBody.combat.setBlockValue(currentMove.ability.blockValue, currentMove.ability);
                     animator.SetBool(currentMove.ability.animatorTrigger, true);
 
                     yield return new WaitForSeconds(attackCooldown);
                     animator.SetBool(currentMove.ability.animatorTrigger, false);
 
-                    myBody.combat.setBlockValue(0);
+                    myBody.combat.setBlockValue(0, null);
                 }
                 else
                 {
