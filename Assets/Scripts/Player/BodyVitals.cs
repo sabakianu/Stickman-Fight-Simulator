@@ -79,8 +79,8 @@ public class BodyVitals : MonoBehaviour
         var brain = body.head.organs.Find(o => o != null && o.name.Contains("Brain"));
         if (brain != null)
         {
-            ConsciousnessBar.setMaxAttribute(brain.getMaxHP());
-            ConsciousnessBar.setAttribute(brain.getCurrentHP());
+            ConsciousnessBar.setMaxAttribute(100f);
+            ConsciousnessBar.setAttribute(body.GetCurrentConsciousness());
         }
     }
 }

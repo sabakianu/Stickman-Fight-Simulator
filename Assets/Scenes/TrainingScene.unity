@@ -3896,9 +3896,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: a2ac5579b8a213b4a9d11ba430378331, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
       value: MoveSlot (3)
@@ -6951,9 +6959,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: 3ad277bbd54acaa4c80f1b0540147482, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
       value: MoveSlot
@@ -7327,9 +7343,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: 0bd1a2908a5cca647beadbff5bba6a25, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
       value: MoveSlot
@@ -7985,6 +8009,7 @@ MonoBehaviour:
   blood: {fileID: 11400000, guid: 3c974b2dd5cba78469707e0db9222918, type: 2}
   defaultCoagulation: 0.5
   spawner: {fileID: 488008790}
+  consciousness: 0
   combat: {fileID: 0}
   vitals: {fileID: 0}
 --- !u!114 &931959509
@@ -8867,6 +8892,7 @@ MonoBehaviour:
   PinIcon: {fileID: 750909037}
   ToggleIcon: {fileID: 1484484406}
   toggle: {fileID: 1484484408}
+  player: {fileID: 931959503}
   SelectedAbilityButton: {fileID: 4253218634460660321, guid: 4851be06fdf9560419500a7691eebd06, type: 3}
   attackModule: {fileID: 1908358459}
   dodgeModule: {fileID: 1361399367}
@@ -9691,9 +9717,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: 4bb20a1fa7fb62e42bc77a69877cdb3a, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
       value: MoveSlot (2)
@@ -10244,9 +10278,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: 8ca11bf3284acaf46973fc62c7583ad9, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
       value: MoveSlot (1)
@@ -11066,9 +11108,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: fb3b53487b18c344a8897a674a51638a, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 3277492498698485041, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
@@ -12853,9 +12903,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: 24db5a2f6cd69984eb6dbfb2c5d41a20, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
       value: MoveSlot
@@ -14700,6 +14758,7 @@ MonoBehaviour:
   blood: {fileID: 11400000, guid: 3c8d482a2496bba48b3b1cb6bd72f9c9, type: 2}
   defaultCoagulation: 0.5
   spawner: {fileID: 1992494576}
+  consciousness: 0
   combat: {fileID: 0}
   vitals: {fileID: 0}
 --- !u!114 &2074400361
@@ -14749,9 +14808,7 @@ MonoBehaviour:
   abilities:
   - ability: {fileID: 11400000, guid: 24db5a2f6cd69984eb6dbfb2c5d41a20, type: 2}
     isLeft: 1
-  deck:
-  - ability: {fileID: 0}
-    isLeft: 0
+  deck: []
   EnemyAbilityPanel: {fileID: 1696525255}
 --- !u!1 &2091112534
 GameObject:
@@ -14896,9 +14953,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: 781d11ed8a28a3647b0ba2eb7fd52aee, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 3277492498698485041, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
@@ -16362,9 +16427,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 931959507}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 
       objectReference: {fileID: 11400000, guid: 15c71711b008962409d54ce814a9fc17, type: 2}
+    - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: sideToggle
+      value: 
+      objectReference: {fileID: 1484484408}
     - target: {fileID: 3277492498698485041, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: ability
       value: 

@@ -15,7 +15,7 @@ MonoBehaviour:
   bodyPartName: Liver
   maxHP: 60
   currentHP: 60
-  painLevel: 0
+  painLevel: 57.232204
   painCoefficient: 4.5
   initialDurability: 0.3
   currentDurability: 0.3

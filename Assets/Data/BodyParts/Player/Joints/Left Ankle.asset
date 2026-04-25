@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Left Ankle
   maxHP: 90
-  currentHP: 90
-  painLevel: 0
+  currentHP: 84.10501
+  painLevel: 2.9673145
   painCoefficient: 2.2
   initialDurability: 0.55
   currentDurability: 0.55
@@ -24,6 +24,6 @@ MonoBehaviour:
   maxBleedRate: 0
   initialMobility: 1
   currentMobility: 1
-  initialStability: 0.75
-  currentStability: 0.75
+  initialStability: 1
+  currentStability: 1
   state: 0

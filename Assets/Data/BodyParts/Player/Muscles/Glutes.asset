@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Glutes
   maxHP: 200
-  currentHP: 200
+  currentHP: 195.95375
   painLevel: 0
   painCoefficient: 0.4
   initialDurability: 0.9
-  currentDurability: 0
+  currentDurability: 0.9
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0

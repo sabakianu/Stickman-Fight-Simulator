@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Left Quadriceps
   maxHP: 220
-  currentHP: 220
+  currentHP: 211.9075
   painLevel: 0
   painCoefficient: 0.4
   initialDurability: 0.8
-  currentDurability: 0
+  currentDurability: 0.8
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0

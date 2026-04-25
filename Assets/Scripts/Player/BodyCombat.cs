@@ -174,7 +174,8 @@ public class BodyCombat : MonoBehaviour
                 totalEfficiency += healthRatio * muscle.getStrength() * req.weight;
             }
         }
-        return totalEfficiency;
+        float painFactor = 1f - (vitals.GetGlobalPain() / 100f * 0.15f);
+        return totalEfficiency * painFactor;
     }
 
     public float CalculateAttackSpeed(Ability ability, bool isLeft)
@@ -228,7 +229,9 @@ public class BodyCombat : MonoBehaviour
             bloodFactor = bloodRatio;
         }
 
-        float finalSpeed = muscleAverage * bloodFactor; // viteza finala
+        float totalPain = vitals.GetGlobalPain();
+        float painPenalty = totalPain / 100f * 0.25f;
+        float finalSpeed = (muscleAverage * bloodFactor) - painPenalty; // viteza finala
 
         // daca e NaN sau 0 returnam 1 default
         if (float.IsNaN(finalSpeed) || finalSpeed <= 0)
@@ -404,6 +407,45 @@ public class BodyCombat : MonoBehaviour
 
         return Mathf.Clamp(finalBlock, 0.05f, 0.95f); // min 5%, max 95% 
     }
+
+    public bool CanExecuteAbility(Ability ability, bool isLeft)
+    {
+        if (ability.jointRequired == null || ability.jointRequired.Count == 0)
+            return true; // caz nu trebuie joints
+
+        float totalStability = 0f;
+        float weightSum = 0f;
+
+        foreach (var req in ability.jointRequired)
+        {
+            BodyZoneContainer zone = body.GetZoneRequirement(req.zone, req.relativeSide, isLeft);
+            if (zone != null)
+            {
+                var joint = zone.joints.Find(j => j != null && j.name.Contains(req.partName));
+                if (joint != null)
+                {
+                    totalStability += joint.getCurrentStability() * req.weight;
+                    weightSum += req.weight;
+                }
+            }
+        }
+
+        if (weightSum <= 0)
+            return true;
+
+        //putem alege o abilitate peste 30% stabilitate
+        return (totalStability / weightSum) >= 0.3f;
+    }
+
+    public void ValidateSelectedMoves(List<SideAbility> selectedDeck)
+    {
+        selectedDeck.RemoveAll(move =>
+        {
+            bool isStable = CanExecuteAbility(move.ability, move.isLeft);
+            return !isStable;
+        });
+    }
+
     public void setBlockValue(float block, Ability ability = null)
     {
         blockValue = block;

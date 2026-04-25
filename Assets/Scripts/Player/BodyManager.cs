@@ -31,14 +31,19 @@ public class BodyManager : MonoBehaviour
     [Header("Damage PopUp")]
     public DamageSpawner spawner;
 
+    [Header("Consciousness")]
+    public float consciousness;
 
     [HideInInspector] public BodyCombat combat;
     [HideInInspector] public BodyVitals vitals;
+
+    [HideInInspector] public bool isKO;
 
     void Awake()
     {
         combat = GetComponent<BodyCombat>();
         vitals = GetComponent<BodyVitals>();
+        isKO = false;
     }
     void Start()
     {
@@ -232,11 +237,39 @@ public class BodyManager : MonoBehaviour
 
         // creier
         var brain = head.organs.Find(o => o != null && o.name.Contains("Brain"));
-        if (brain != null && brain.getCurrentHP() <= 0)
+        if (brain != null)
         {
-            Debug.LogError("Creier farmat");
+            consciousness = GetCurrentConsciousness();
+
+            if (consciousness <= 0.05f)
+            {
+                isKO = true;
+            }
         }
     }
 
 
+    public float GetCurrentConsciousness()
+    {
+        var brain = head.organs.Find(o => o != null && o.name.Contains("Brain"));
+
+        float bloodRatio = blood.getCurrentHP() / blood.getMaxHP();
+        float bloodPercent;
+
+        if (bloodRatio >= 0.99f)
+            bloodPercent = 1f;
+        else
+            bloodPercent = Mathf.Clamp01((bloodRatio - 0.4f) / 0.6f);
+
+        float fl = brain.getCurrentHP() / brain.getMaxHP() * 100;
+
+        float maxPainTolerance = 1000f;
+        float totalPain = vitals.GetGlobalPain();
+
+        float painPenalty = totalPain / maxPainTolerance * 100f;
+
+        float currentC = fl * bloodPercent - painPenalty;
+
+        return Mathf.Clamp(currentC, 0f, 100f);
+    }
 }

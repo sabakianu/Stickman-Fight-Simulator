@@ -24,6 +24,6 @@ MonoBehaviour:
   maxBleedRate: 0
   initialMobility: 1
   currentMobility: 1
-  initialStability: 0.4
-  currentStability: 0.4
+  initialStability: 1
+  currentStability: 1
   state: 0

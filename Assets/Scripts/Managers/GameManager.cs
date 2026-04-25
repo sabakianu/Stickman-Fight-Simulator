@@ -14,12 +14,25 @@ public class GameManager : MonoBehaviour
     public Panel StrategyPanel;
     public PhaseButton PhaseButton;
     [Header("Players")]
-    public PlayerScript player;
-    public EnemyAI enemy;
+    public GameObject player;
+    public GameObject enemy;
+
+    private EnemyAI enemyAI;
+    private PlayerScript playerAI;
     private void Awake()
     {
         Instance = this;
         StrategyPanel.HidePanel();
+
+        playerAI = player.GetComponent<PlayerScript>();
+        enemyAI = enemy.GetComponent<EnemyAI>();
+    }
+    private void Update()
+    {
+        if (State == GameState.Running)
+        {
+            CheckForKO();
+        }
     }
 
     public void UpdateGameState(GameState newState)
@@ -29,23 +42,22 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Start:
-                Debug.Log("Start");
                 AudioManager.Instance.PlaySound(AudioManager.Instance.Fight);
                 StartCoroutine(StartGameCoroutine());
                 break;
             case GameState.Strategy:
-                Debug.Log("Strategy");
-                enemy.ChooseDeck();
+                enemyAI.ChooseDeck();
                 StrategyPanel.ShowPanel();
                 Time.timeScale = 0f;
                 break;
             case GameState.Running:
-                Debug.Log("Running");
                 timer.startTimer();
                 break;
             case GameState.End:
-                Debug.Log("End");
+                Time.timeScale = 0f; //asta sa oprim pe moment
+                Debug.Log("SIMULARE OPRITĂ - KO");
                 break;
+
             default:
                 break;
         }
@@ -79,9 +91,26 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         List<SideAbility> activeMoves = StrategySelectorManager.Instance.GetCurrentDeck();
-        player.StartAutoCombat(activeMoves);
-        enemy.StartEnemyRound();
+        playerAI.StartAutoCombat(activeMoves);
+        enemyAI.StartEnemyRound();
         UpdateGameState(GameState.Running);
+    }
+
+    private void CheckForKO()
+    {
+        BodyManager playerManager = player.GetComponent<BodyManager>();
+        BodyManager enemyManager = enemy.GetComponent<BodyManager>();
+
+        bool playerKO = playerManager.isKO;
+        bool enemyKO = enemyManager.isKO;
+
+        if (playerKO || enemyKO)
+        {
+            string winner = playerKO ? "Enemy Wins!" : "Player Wins!";
+            Debug.Log("Meci terminat: " + winner);
+
+            UpdateGameState(GameState.End);
+        }
     }
 }
 public enum GameState

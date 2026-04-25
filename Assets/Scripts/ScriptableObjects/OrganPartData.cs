@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newOrganPartData", menuName = "OrganPartData")]
 public class OrganPartData : BodyPartData
 {
-    [Header("Organ")]
-    [SerializeField] float functionLevel;
     [Header("State")]
     [SerializeField] OrganState state = OrganState.Healthy;
 
@@ -14,7 +12,6 @@ public class OrganPartData : BodyPartData
     {
         string info = string.Empty;
         info += base.GetInfo();
-        info += "<color=#008080>Function Level: " + functionLevel + "</color>\n";
         info += "<color=#FFD700>State: " + state.ToString() + "</color>\n";
 
         return info;

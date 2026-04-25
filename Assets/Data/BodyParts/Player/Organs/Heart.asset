@@ -15,7 +15,7 @@ MonoBehaviour:
   bodyPartName: Heart
   maxHP: 50
   currentHP: 50
-  painLevel: 0
+  painLevel: 57.232204
   painCoefficient: 4
   initialDurability: 0.2
   currentDurability: 0.2

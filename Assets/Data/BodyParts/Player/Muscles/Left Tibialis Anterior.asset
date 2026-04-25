@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Left Tibialis Anterior
   maxHP: 80
-  currentHP: 80
+  currentHP: 51.67637
   painLevel: 0
   painCoefficient: 1.2
   initialDurability: 0.3
-  currentDurability: 0
+  currentDurability: 0.3
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0

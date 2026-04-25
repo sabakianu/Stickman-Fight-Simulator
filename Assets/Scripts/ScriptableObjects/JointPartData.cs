@@ -72,6 +72,11 @@ public class JointPartData : BodyPartData
     {
         return currentMobility;
     }
+
+    public float getCurrentStability()
+    {
+        return currentStability;
+    }
 }
 public enum JointState
 {

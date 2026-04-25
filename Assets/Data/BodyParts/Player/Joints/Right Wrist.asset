@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Right Wrist
   maxHP: 85
-  currentHP: 85
+  currentHP: 83.90542
   painLevel: 0
   painCoefficient: 2.2
   initialDurability: 0.45
-  currentDurability: 0
+  currentDurability: 0.45
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0
   initialMobility: 1
-  currentMobility: 0
-  initialStability: 0.05
+  currentMobility: 1
+  initialStability: 1
   currentStability: 0
   state: 0

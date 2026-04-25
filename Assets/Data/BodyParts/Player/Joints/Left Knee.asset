@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Left Knee
   maxHP: 150
-  currentHP: 150
-  painLevel: 0
+  currentHP: 143.45
+  painLevel: 22.38285
   painCoefficient: 2.5
   initialDurability: 0.75
-  currentDurability: 0
+  currentDurability: 0.75
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0
   initialMobility: 1
-  currentMobility: 0
-  initialStability: 0.85
-  currentStability: 0
+  currentMobility: 1
+  initialStability: 1
+  currentStability: 1
   state: 0

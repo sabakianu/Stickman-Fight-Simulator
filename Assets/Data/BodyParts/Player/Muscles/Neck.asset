@@ -18,7 +18,7 @@ MonoBehaviour:
   painLevel: 0
   painCoefficient: 1.5
   initialDurability: 0.4
-  currentDurability: 0
+  currentDurability: 0.4
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0
