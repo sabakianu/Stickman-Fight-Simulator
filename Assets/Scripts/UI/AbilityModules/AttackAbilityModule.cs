@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Modul de interfata responsabil pentru afisarea si calcularea statisticilor de atac in meniul de strategie
+/// </summary>
 public class AttackAbilityModule : AbilityModule
 {
     [Header("UI References")]
@@ -16,6 +19,12 @@ public class AttackAbilityModule : AbilityModule
     [SerializeField] TextMeshProUGUI jointsText;
     [SerializeField] TextMeshProUGUI energyCost;
 
+    /// <summary>
+    /// Calculeaza si afiseaza puterea totala, sansa de lovire si viteza atacului in functie de starea corpului
+    /// </summary>
+    /// <param name="ability">Abilitatea de atac selectata</param>
+    /// <param name="playerBody">Referinta catre corpul jucatorului pentru aplicarea penalizarilor de damage</param>
+    /// <param name="isLeft">Determina daca atacul foloseste membrele de pe partea stanga sau dreapta</param>
     public override void UpdateDisplay(Ability ability, BodyManager playerBody, bool isLeft)
     {
         float eficienta = 1.0f;
@@ -52,6 +61,9 @@ public class AttackAbilityModule : AbilityModule
         ActivateAdditionalInfo(JointBtn, ability, ability.jointRequired);
     }
 
+    /// <summary>
+    /// Reseteaza toate campurile de text ale modulului de atac pentru a curata vizual interfata
+    /// </summary>
     public override void DeleteInfo()
     {
         title.text = "";

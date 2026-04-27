@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameState State;
     public static event Action<GameState> OnStatechanged;
     public GameObject FightLogo;
+    public GameObject KOPopup;
     public Timer timer;
     public Panel StrategyPanel;
     public PhaseButton PhaseButton;
@@ -19,6 +21,10 @@ public class GameManager : MonoBehaviour
 
     private EnemyAI enemyAI;
     private PlayerScript playerAI;
+
+    /// <summary>
+    /// Initializeaza singleton-ul si referintele catre scripturile de control ale combatantilor
+    /// </summary>
     private void Awake()
     {
         Instance = this;
@@ -27,6 +33,10 @@ public class GameManager : MonoBehaviour
         playerAI = player.GetComponent<PlayerScript>();
         enemyAI = enemy.GetComponent<EnemyAI>();
     }
+
+    /// <summary>
+    /// Verifica in fiecare cadru daca unul dintre luptatori a fost facut KO in timpul fazei active
+    /// </summary>
     private void Update()
     {
         if (State == GameState.Running)
@@ -35,6 +45,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Schimba starea curenta a jocului si executa actiunile specifice pentru noua faza (sunete, UI, pauza)
+    /// </summary>
+    /// <param name="newState">Noua stare in care va trece jocul</param>
     public void UpdateGameState(GameState newState)
     {
         State = newState;
@@ -54,8 +68,7 @@ public class GameManager : MonoBehaviour
                 timer.startTimer();
                 break;
             case GameState.End:
-                Time.timeScale = 0f; //asta sa oprim pe moment
-                Debug.Log("SIMULARE OPRITĂ - KO");
+                StartCoroutine(EndGameSequence());
                 break;
 
             default:
@@ -64,12 +77,20 @@ public class GameManager : MonoBehaviour
 
         OnStatechanged?.Invoke(newState);
     }
+
+    /// <summary>
+    /// Aboneaza metodele la evenimentele de timer si de interfata la inceputul jocului
+    /// </summary>
     private void Start() //aboneaza eventurile
     {
         UpdateGameState(GameState.Start);
         timer.OnTimerFinished += StartNewStrategyPhase;
         PhaseButton.StartRunnig += StartNewRunnigPhase;
     }
+
+    /// <summary>
+    /// Corutina pentru afisarea logo-ului de inceput si tranzitia catre prima faza de strategie
+    /// </summary>
     private IEnumerator StartGameCoroutine() //porneste timerul de 2s
     {
         Time.timeScale = 0f;
@@ -80,11 +101,37 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.Strategy);
     }
 
+    /// <summary>
+    /// Corutina pentru finalizarea meciului, afisarea popup-ului de KO si revenirea la meniul principal
+    /// </summary>
+    private IEnumerator EndGameSequence()
+    {
+        timer.StopTimer();
+        //playerAI.StopAutoCombat();
+        //enemyAI.StopEnemyRound();
+        //oprim combatul
+
+        if (KOPopup != null)
+        {
+            KOPopup.SetActive(true);
+        }
+
+        yield return new WaitForSecondsRealtime(3f); // 3 secunde pauza
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    /// <summary>
+    /// Callback declansat la expirarea timpului de lupta pentru a reveni la planificare
+    /// </summary>
     private void StartNewStrategyPhase()
     {
         UpdateGameState(GameState.Strategy);
     }
 
+    /// <summary>
+    /// Porneste faza de lupta propriu-zisa, ascunde interfata si activeaza AI-ul pentru ambii combatanti
+    /// </summary>
     private void StartNewRunnigPhase()
     {
         StrategyPanel.HidePanel();
@@ -96,6 +143,9 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.Running);
     }
 
+    /// <summary>
+    /// Interogheaza starea de KO a ambilor luptatori si decide castigatorul meciului
+    /// </summary>
     private void CheckForKO()
     {
         BodyManager playerManager = player.GetComponent<BodyManager>();
@@ -113,6 +163,10 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
+/// <summary>
+/// Defineste starile posibile prin care trece o runda de joc
+/// </summary>
 public enum GameState
 {
     Start,

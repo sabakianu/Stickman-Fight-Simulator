@@ -20,6 +20,9 @@ public class BodyPartData : ScriptableObject
     [SerializeField] protected float minBleedRate;
     [SerializeField] protected float maxBleedRate;
 
+    /// <summary>
+    /// Returneaza un string formatat cu toate statisticile partii corpului pentru afisarea in tooltip
+    /// </summary>
     public virtual string GetInfo()
     {
         string info = string.Empty;
@@ -31,16 +34,27 @@ public class BodyPartData : ScriptableObject
         info += "<color=#FF0000>Bleed Rate: " + bleedRate + "</color>\n";
         return info;
     }
+
+    /// <summary>
+    /// Returneaza viata curenta a partii corpului
+    /// </summary>
     public float getCurrentHP()
     {
         return currentHP;
     }
 
+    /// <summary>
+    /// Returneaza viata maxima a partii corpului
+    /// </summary>
     public float getMaxHP()
     {
         return maxHP;
     }
 
+    /// <summary>
+    /// Proceseaza primirea daunelor, calculeaza reducerea prin durabilitate si creste nivelul de durere si sangerare
+    /// </summary>
+    /// <param name="damage">Valoarea bruta a damage-ului primit</param>
     public void takeDamage(float damage)
     {
         float realDamage = damage * (1 - currentDurability);
@@ -66,6 +80,12 @@ public class BodyPartData : ScriptableObject
 
         checkState();
     }
+
+    /// <summary>
+    /// Reseteaza toti parametrii partii corpului la valorile lor initiale de sanatate
+    /// </summary>/// <summary>
+    /// Reseteaza toti parametrii partii corpului la valorile lor initiale de sanatate
+    /// </summary>
     public virtual void resetPart()
     {
         currentHP = maxHP;
@@ -76,9 +96,16 @@ public class BodyPartData : ScriptableObject
         bleedRate = 0;
     }
 
+    /// <summary>
+    /// Metoda protejata ce poate fi suprascrisa pentru a verifica pragurile de stare (fracturi, luxatii, etc)
+    /// </summary>
     protected virtual void checkState()
     { }
 
+    /// <summary>
+    /// Scade nivelul de durere in mod pasiv in functie de timpul scurs
+    /// </summary>
+    /// <param name="deltaTime">Timpul scurs intre cadre</param>
     public virtual void processPainPart(float deltaTime)
     {
         float decayRate = 2.0f;
@@ -88,11 +115,19 @@ public class BodyPartData : ScriptableObject
             painLevel = 0;
     }
 
+    /// <summary>
+    /// Returneaza rata actuala de sangerare
+    /// </summary>
     public float getBleedRate()
     {
         return bleedRate;
     }
 
+    /// <summary>
+    /// Gestioneaza procesul de coagulare si oprire a sangerarii in timp
+    /// </summary>
+    /// <param name="deltaTime">Timpul scurs de la ultimul update</param>
+    /// <param name="coagulationFactor">Factorul de vindecare al personajului</param>
     public void processBleeding(float deltaTime, float coagulationFactor)
     {
         if (bleedRate <= 0) return;
@@ -104,11 +139,18 @@ public class BodyPartData : ScriptableObject
             bleedRate = minBleedRate;
         }
     }
+
+    /// <summary>
+    /// Returneaza nivelul actual de durere
+    /// </summary>
     public float getPain()
     {
         return painLevel;
     }
 
+    /// <summary>
+    /// Returneaza durabilitatea actuala a partii corpului
+    /// </summary>
     public float getCurrentDurability()
     {
         return currentDurability;

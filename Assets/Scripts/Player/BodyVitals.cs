@@ -19,10 +19,17 @@ public class BodyVitals : MonoBehaviour
 
     private BodyManager body;
 
+    /// <summary>
+    /// Initializeaza referinta catre BodyManager pentru a avea acces la toate partile corpului
+    /// </summary>
     void Awake()
     {
         body = GetComponent<BodyManager>();
     }
+
+    /// <summary>
+    /// Calculeaza si aplica regenerarea staminei in fiecare cadru pana la limita maxima
+    /// </summary>
     public void processStaminaRegen()
     {
         if (currentStamina < maxStamina)
@@ -32,6 +39,11 @@ public class BodyVitals : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Verifica daca personajul are destula energie pentru o actiune si scade costul daca este cazul
+    /// </summary>
+    /// <param name="cost">Cantitatea de stamina necesara</param>
+    /// <returns>True daca actiunea poate fi executata</returns>
     public bool staminaReq(float cost)
     {
         if (currentStamina >= cost)
@@ -42,6 +54,10 @@ public class BodyVitals : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Calculeaza suma totala a durerii acumulate in toate zonele anatomice ale corpului
+    /// </summary>
+    /// <returns>Valoarea numerica a durerii globale</returns>
     public float GetGlobalPain()
     {
         float totalPain = 0;
@@ -54,6 +70,11 @@ public class BodyVitals : MonoBehaviour
         return totalPain;
     }
 
+    /// <summary>
+    /// Metoda auxiliara care insumeaza durerea muschilor si a oaselor dintr-o zona specifica
+    /// </summary>
+    /// <param name="zone">Containerul zonei corpului verificat</param>
+    /// <returns>Suma durerii pe zona respectiva</returns>
     private float GetZonePain(BodyZoneContainer zone)
     {
         float zonePain = 0;
@@ -68,6 +89,9 @@ public class BodyVitals : MonoBehaviour
         return zonePain;
     }
 
+    /// <summary>
+    /// Actualizeaza vizual barele de UI pentru energie, sange si nivelul de constienta
+    /// </summary>
     public void setBars()
     {
         EnergyBar.setMaxAttribute(maxStamina);

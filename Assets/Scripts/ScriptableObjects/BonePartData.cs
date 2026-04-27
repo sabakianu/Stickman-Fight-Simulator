@@ -8,6 +8,10 @@ public class BonePartData : BodyPartData
     [Header("State")]
     [SerializeField] BoneState state = BoneState.Healthy;
 
+    /// <summary>
+    /// Compune informatiile despre os incluzand starea vizuala formatata pentru interfata de tip tooltip
+    /// </summary>
+    /// <returns>Sir de caractere cu datele de baza si starea osului</returns>
     public override string GetInfo()
     {
         string info = string.Empty;
@@ -17,11 +21,18 @@ public class BonePartData : BodyPartData
         return info;
     }
 
+    /// <summary>
+    /// Reseteaza osul la starea de sanatate maxima si elimina orice fractura existenta
+    /// </summary>
     public override void resetPart()
     {
         base.resetPart();
         state = BoneState.Healthy;
     }
+
+    /// <summary>
+    /// Evalueaza nivelul de sanatate si actualizeaza starea osului durabilitatea si riscul de sangerare interna
+    /// </summary>
     protected override void checkState()
     {
         if (currentHP <= 0) // daca e 0 einutilizabil
@@ -40,6 +51,10 @@ public class BonePartData : BodyPartData
         }
     }
 
+    /// <summary>
+    /// Gestioneaza diminuarea durerii in timp aplicand o rata de recuperare extrem de scazuta in caz de fractura
+    /// </summary>
+    /// <param name="deltaTime">Timpul scurs intre cadrele de procesare</param>
     public override void processPainPart(float deltaTime)
     {
         float decayRate = 3.0f;
@@ -60,6 +75,9 @@ public class BonePartData : BodyPartData
     }
 }
 
+/// <summary>
+/// Defineste starile de integritate posibile pentru un element al sistemului osos
+/// </summary>
 public enum BoneState
 {
     Healthy,  // totul functioneaza normal

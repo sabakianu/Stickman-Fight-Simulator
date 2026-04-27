@@ -23,6 +23,9 @@ public class PanelsManager : MonoBehaviour
     private bool Joints_OrgansShow;
     private bool EnemyShow;
 
+    /// <summary>
+    /// Initializeaza Singleton-ul si reseteaza starea tuturor panourilor la invizibil
+    /// </summary>
     private void Awake()
     {
         Instance = this;
@@ -36,6 +39,10 @@ public class PanelsManager : MonoBehaviour
         Joints_OrgansShow = false;
         EnemyShow = false;
     }
+
+    /// <summary>
+    /// Asculta input-ul de la tastatura pentru comutarea panourilor in faza de strategie
+    /// </summary>
     private void Update()
     {
         if (GameManager.Instance.State == GameState.Strategy)
@@ -70,6 +77,10 @@ public class PanelsManager : MonoBehaviour
             ToggleEnemyPanel();
         }
     }
+
+    /// <summary>
+    /// Comuta vizibilitatea panoului de oase si inchide celelalte panouri anatomice active
+    /// </summary>
     private void ToggleBonePanel()
     {
         if (MuscleShow)
@@ -98,6 +109,10 @@ public class PanelsManager : MonoBehaviour
             BoneShow = false;
         }
     }
+
+    /// <summary>
+    /// Comuta vizibilitatea panoului de muschi si inchide celelalte panouri anatomice active
+    /// </summary>
     private void ToggleMusclesPanel()
     {
         if (BoneShow)
@@ -126,6 +141,10 @@ public class PanelsManager : MonoBehaviour
             MuscleShow = false;
         }
     }
+
+    /// <summary>
+    /// Comuta vizibilitatea panoului de articulatii/organe si inchide celelalte panouri anatomice active
+    /// </summary>
     private void ToggleJoints_OrgansPanel()
     {
         if (BoneShow)
@@ -154,6 +173,10 @@ public class PanelsManager : MonoBehaviour
             Joints_OrgansShow = false;
         }
     }
+
+    /// <summary>
+    /// Comuta vizibilitatea panoului cu informatiile inamicului
+    /// </summary>
     private void ToggleEnemyPanel()
     {
         if (EnemyShow)
@@ -168,6 +191,9 @@ public class PanelsManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Inchide panoul de informatii suplimentare
+    /// </summary>
     private void CloseAdditionalInfoPanel()
     {
 

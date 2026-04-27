@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Gestioneaza interactiunea vizuala si detectia mouse-ului pentru partile corpului prin intermediul imaginilor UI
+/// </summary>
 public class BodyHitbox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] BodyPartData bodyPartData;
@@ -13,6 +16,9 @@ public class BodyHitbox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private GradientColorKey[] colorKey;
     GradientAlphaKey[] alphaKey;
 
+    /// <summary>
+    /// Initializeaza gradientul de culori si configureaza pragul de detectie pentru transparenta imaginii
+    /// </summary>
     void Awake()
     {
         gradient = new Gradient();
@@ -38,6 +44,10 @@ public class BodyHitbox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         //atasam
         gradient.SetKeys(colorKey, alphaKey);
     }
+
+    /// <summary>
+    /// Calculeaza procentul de viata si actualizeaza culoarea imaginii folosind gradientul definit
+    /// </summary>
     void Update()
     {
         float currentHP = bodyPartData.getCurrentHP();
@@ -47,12 +57,21 @@ public class BodyHitbox : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         float HPprocent = Mathf.Clamp01(currentHP / maxHP);
         img.color = gradient.Evaluate(HPprocent); //ataseaza culoarea corespondenta
     }
+
+    /// <summary>
+    /// Trimite datele partii corpului catre HighlightManager cand mouse-ul intra pe suprafata imaginii
+    /// </summary>
+    /// <param name="eventData">Datele evenimentului de pointer furnizate de Unity</param>
     public void OnPointerEnter(PointerEventData eventData)
     {
         string bodyPartName = bodyPartData.GetInfo();
         HighlightManager.Instance.Show(bodyPartName);
     }
 
+    /// <summary>
+    /// Ascunde informatiile si reseteaza starea de highlight cand mouse-ul paraseste suprafata imaginii
+    /// </summary>
+    /// <param name="eventData">Datele evenimentului de pointer furnizate de Unity</param>
     public void OnPointerExit(PointerEventData eventData)
     {
         img.color = Color.white;

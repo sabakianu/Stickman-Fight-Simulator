@@ -11,11 +11,22 @@ public class BodyCombat : MonoBehaviour
 
     private Ability activeBlockAbility;
 
+    /// <summary>
+    /// Initializeaza referintele catre managerul corpului si sistemul de vitale
+    /// </summary>
     void Awake()
     {
         body = GetComponent<BodyManager>();
         vitals = GetComponent<BodyVitals>();
     }
+
+    /// <summary>
+    /// Calculeaza si distribuie impactul unei lovituri asupra zonelor anatomice ale tintei
+    /// </summary>
+    /// <param name="move">Abilitatea folosita</param>
+    /// <param name="isLeft">Daca atacul vine de pe partea stanga</param>
+    /// <param name="attackerEfficiency">Eficienta atacatorului bazata pe muschi</param>
+    /// <param name="attacker">Referinta catre atacator pentru aplicarea reculului</param>
     public void ApplyHitStats(Ability move, bool isLeft, float attackerEfficiency, BodyManager attacker) //afecteaza zonele jucatorului
     {
         BodyZoneContainer target = body.FindBodyPart(move.targetZone, isLeft);
@@ -80,6 +91,11 @@ public class BodyCombat : MonoBehaviour
         body.spawner.SpawnPopUp();
     }
 
+    /// <summary>
+    /// Aplica daunele in mod egal componentelor dintr-o lista si returneaza daunele care depasesc HP-ul curent
+    /// </summary>/// <summary>
+    /// Aplica daunele in mod egal componentelor dintr-o lista si returneaza daunele care depasesc HP-ul curent
+    /// </summary>
     private float ApplyZoneDamage<T>(List<T> parts, float damage) where T : BodyPartData
     {
         if (parts == null || parts.Count == 0 || damage <= 0) return 0;
@@ -103,6 +119,9 @@ public class BodyCombat : MonoBehaviour
         return overflow;
     }
 
+    /// <summary>
+    /// Distribuie forta de impact a blocajului catre zonele de sustinere ale aparatorului
+    /// </summary>
     private void ApplyBlockImpact(float totalImpact, Ability ability)
     {
         foreach (bool side in new bool[] { true, false })
@@ -131,6 +150,10 @@ public class BodyCombat : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Aplica forta de recul asupra corpului atacatorului in urma executiei unei lovituri
+    /// </summary>
     public void ApplyRecoil(float totalRecoilForce, Ability move, bool isLeft)
     {
         foreach (var target in move.recoilTargets)
@@ -155,6 +178,10 @@ public class BodyCombat : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculeaza puterea totala a unei abilitati bazata pe starea muschilor si penalizarea de durere
+    /// formula: $$Efficiency = \sum (HealthRatio \times Strength \times Weight) \times PainFactor$$
+    /// </summary>
     public float CalculateTotalPower(Ability ability, bool isLeft)
     {
         float totalEfficiency = 0f;
@@ -178,6 +205,10 @@ public class BodyCombat : MonoBehaviour
         return totalEfficiency * painFactor;
     }
 
+    /// <summary>
+    /// Determina viteza finala a atacului influentata de muschi, volum de sange si durere
+    /// formula: $$FinalSpeed = (MuscleAvg \times BloodFactor) - PainPenalty$$
+    /// </summary>
     public float CalculateAttackSpeed(Ability ability, bool isLeft)
     {
         float HPsuma = 0f;
@@ -242,6 +273,9 @@ public class BodyCombat : MonoBehaviour
         return Mathf.Max(0.2f, finalSpeed); // nu lasam viteza sub 20%
     }
 
+    /// <summary>
+    /// Calculeaza sansa de lovire bazata pe mobilitatea articulatiilor si capacitatea de eschiva a inamicului
+    /// </summary>
     public float CalculateHitChance(Ability move, bool isLeft, BodyManager enemyBody)
     {
         if (move.jointRequired == null || move.jointRequired.Count == 0)
@@ -295,6 +329,10 @@ public class BodyCombat : MonoBehaviour
         return finalChance;
     }
 
+    /// <summary>
+    /// Calculeaza eficienta eschivei luand in calcul cel mai slab os implicat si nivelul de sange
+    /// formula: $$Dodge = (\min(MuscleScore, LowestBone) \times BloodFactor - PainPenalty) \times Penalty$$
+    /// </summary>
     public float CalculateDodgeEffectiveness(Ability move, bool isLeft)
     {
         float musclePondere = 0f;
@@ -347,6 +385,9 @@ public class BodyCombat : MonoBehaviour
         return Mathf.Max(0.1f, finalDodge); // lasam din mila minim 10% ferire
     }
 
+    /// <summary>
+    /// Calculeaza cat de mult damage este absorbit de blocaj versus forta atacului
+    /// </summary>
     public float CalculateBlockEffectiveness(Ability attack, float attackerDamage, Ability ability)
     {
         float muscleResistance = 0f;
@@ -408,6 +449,9 @@ public class BodyCombat : MonoBehaviour
         return Mathf.Clamp(finalBlock, 0.05f, 0.95f); // min 5%, max 95% 
     }
 
+    /// <summary>
+    /// Verifica daca articulatiile sunt suficient de stabile pentru a permite executia unei miscari
+    /// </summary>
     public bool CanExecuteAbility(Ability ability, bool isLeft)
     {
         if (ability.jointRequired == null || ability.jointRequired.Count == 0)
@@ -437,6 +481,9 @@ public class BodyCombat : MonoBehaviour
         return (totalStability / weightSum) >= 0.3f;
     }
 
+    /// <summary>
+    /// Elimina din deck miscarile care nu mai pot fi executate din cauza instabilitatii articulatiilor
+    /// </summary>
     public void ValidateSelectedMoves(List<SideAbility> selectedDeck)
     {
         selectedDeck.RemoveAll(move =>

@@ -8,6 +8,10 @@ public class OrganPartData : BodyPartData
     [Header("State")]
     [SerializeField] OrganState state = OrganState.Healthy;
 
+    /// <summary>
+    /// Returneaza informatiile detaliate despre organ incluzand starea actuala formatata colorat pentru tooltip
+    /// </summary>
+    /// <returns>Un sir de caractere formatat cu datele organului</returns>
     public override string GetInfo()
     {
         string info = string.Empty;
@@ -16,11 +20,19 @@ public class OrganPartData : BodyPartData
 
         return info;
     }
+
+    /// <summary>
+    /// Reseteaza organul la valorile initiale si starea de sanatate maxima
+    /// </summary>
     public override void resetPart()
     {
         base.resetPart();
         state = OrganState.Healthy;
     }
+
+    /// <summary>
+    /// Actualizeaza starea organului si modifica drastic ratele de sangerare in functie de pragurile de HP
+    /// </summary>
     protected override void checkState()
     {
         if (currentHP <= 0) // daca e 0 e inutilizabil
@@ -43,6 +55,10 @@ public class OrganPartData : BodyPartData
         }
     }
 
+    /// <summary>
+    /// Gestioneaza diminuarea durerii in timp aplicand o rata de recuperare diferita in functie de gravitatea starii organului
+    /// </summary>
+    /// <param name="deltaTime">Timpul scurs de la ultimul cadru</param>
     public override void processPainPart(float deltaTime)
     {
         float decayRate = 3.0f;
@@ -66,6 +82,9 @@ public class OrganPartData : BodyPartData
     }
 }
 
+/// <summary>
+/// Defineste starile posibile de sanatate in care se poate afla un organ
+/// </summary>
 public enum OrganState
 {
     Healthy,  // totul functioneaza normal

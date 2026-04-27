@@ -13,11 +13,17 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] GameObject EnemyAbilityPanel;
     private PlayerScript fighter;
 
+    /// <summary>
+    /// Initializeaza referinta catre scriptul de control al luptei atasat inamicului
+    /// </summary>
     void Awake()
     {
         fighter = GetComponent<PlayerScript>();
     }
 
+    /// <summary>
+    /// Creeaza un deck format din 5 abilitati unice extrase aleatoriu din lista totala de abilitati
+    /// </summary>
     public void ChooseDeck() // face deck ul cu 5 abilitati ccare NU se repeta
     {
         deck.Clear();
@@ -36,11 +42,17 @@ public class EnemyAI : MonoBehaviour
         ShowEnemyDeck();
     }
 
+    /// <summary>
+    /// Lanseaza rutina de lupta automata folosind deck-ul de abilitati generat
+    /// </summary>
     public void StartEnemyRound()
     {
         fighter.StartAutoCombat(deck);
     }
 
+    /// <summary>
+    /// Actualizeaza iconitele din panoul de interfata al inamicului pentru a reflecta deck-ul curent
+    /// </summary>
     private void ShowEnemyDeck()
     {
         int slotCount = EnemyAbilityPanel.transform.childCount;

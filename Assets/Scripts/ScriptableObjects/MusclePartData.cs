@@ -12,6 +12,9 @@ public class MusclePartData : BodyPartData
     [Header("State")]
     [SerializeField] MuscleState state = MuscleState.Healthy;
 
+    /// <summary>
+    /// Compune sirul de informatii pentru tooltip, adaugand datele de oboseala si forta peste cele de baza
+    /// </summary>
     public override string GetInfo()
     {
         string info = string.Empty;
@@ -23,11 +26,18 @@ public class MusclePartData : BodyPartData
 
         return info;
     }
+
+    /// <summary>
+    /// Reseteaza muschiul la valorile initiale si starea de sanatate Healthy
+    /// </summary>
     public override void resetPart()
     {
         base.resetPart();
         state = MuscleState.Healthy;
     }
+    /// <summary>
+    /// Verifica HP-ul actual si actualizeaza starea muschiului, durabilitatea si rata de sangerare
+    /// </summary>
     protected override void checkState()
     {
         if (currentHP <= 0) // daca e 0 einutilizabil
@@ -46,6 +56,9 @@ public class MusclePartData : BodyPartData
         }
     }
 
+    /// <summary>
+    /// Proceseaza scaderea nivelului de durere in timp, influentata de gravitatea leziunii musculare
+    /// </summary>
     public override void processPainPart(float deltaTime)
     {
         float decayRate = 5.0f;
@@ -64,12 +77,19 @@ public class MusclePartData : BodyPartData
         if (painLevel < 0)
             painLevel = 0;
     }
+
+    /// <summary>
+    /// Returneaza valoarea fortei acestui muschi pentru calculele de damage
+    /// </summary>
     public float getStrength()
     {
         return strength;
     }
 }
 
+/// <summary>
+/// Starile posibile ale unui muschi in functie de integritatea sa
+/// </summary>
 public enum MuscleState
 {
 

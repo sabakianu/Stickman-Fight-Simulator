@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
+/// <summary>
+/// Defineste directia din care vine sau spre care se indreapta atacul
+/// </summary>
 public enum AttackSide
 {
     Right = 0,
@@ -10,11 +13,19 @@ public enum AttackSide
     Central = 2
 
 }
+
+/// <summary>
+/// Specifica daca o cerinta se refera la aceeasi parte a corpului cu membrul activ sau la partea opusa
+/// </summary>
 public enum RelativeSide
 {
     SameSide,
     OppositeSide
 }
+
+/// <summary>
+/// Categoriile principale de abilitati disponibile in joc
+/// </summary>
 public enum AbilityType
 {
     Attack,
@@ -22,6 +33,9 @@ public enum AbilityType
     Dodge
 }
 
+/// <summary>
+/// Reprezinta o cerinta anatomica necesara pentru executarea unei abilitati
+/// </summary>
 [System.Serializable]
 public class BodyPartRequirement
 {
@@ -31,7 +45,9 @@ public class BodyPartRequirement
     [Range(0, 1)] public float weight;
 }
 
-
+/// <summary>
+/// Defineste distributia daunelor specifice catre articulatiile inamicului
+/// </summary>
 [System.Serializable]
 public class JointDamageTarget
 {
@@ -39,6 +55,9 @@ public class JointDamageTarget
     public float damagePercent;
 }
 
+/// <summary>
+/// Reprezinta zonele corpului atacatorului care absorb forta de recul in urma unei lovituri
+/// </summary>
 [System.Serializable]
 public class RecoilTarget
 {
@@ -101,6 +120,10 @@ public class Ability : ScriptableObject
 
     private bool ShowShowDamageDistribution => type == AbilityType.Attack || type == AbilityType.Defense;
 }
+
+/// <summary>
+/// Defineste zonele principale ale corpului pentru targetare si damage
+/// </summary>
 public enum BodyZone
 {
     Head,

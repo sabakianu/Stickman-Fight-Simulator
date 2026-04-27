@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Brain
   maxHP: 30
-  currentHP: 20
-  painLevel: 57.232204
+  currentHP: 30
+  painLevel: 0
   painCoefficient: 5
   initialDurability: 0.1
   currentDurability: 0.1
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0
-  functionLevel: 50
   state: 0

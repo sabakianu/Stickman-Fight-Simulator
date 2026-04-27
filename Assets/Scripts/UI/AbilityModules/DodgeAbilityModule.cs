@@ -4,6 +4,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+/// <summary>
+/// Modul de interfata responsabil pentru afisarea si calcularea statisticilor de eschiva in meniul de strategie
+/// </summary>
 public class DodgeAbilityModule : AbilityModule
 {
     [Header("UI References")]
@@ -14,6 +17,13 @@ public class DodgeAbilityModule : AbilityModule
     [SerializeField] TextMeshProUGUI jointsText;
     [SerializeField] TextMeshProUGUI bonesText;
     [SerializeField] TextMeshProUGUI energyCost;
+
+    /// <summary>
+    /// Actualizeaza toate campurile de text din interfata cu datele calculate despre eficienta eschivei si viteza
+    /// </summary>
+    /// <param name="ability">Obiectul de tip Ability care contine datele de baza</param>
+    /// <param name="playerBody">Referinta catre corpul jucatorului pentru calcularea penalizarilor de damage</param>
+    /// <param name="isLeft">Determina daca abilitatea este folosita pe partea stanga sau dreapta</param>
     public override void UpdateDisplay(Ability ability, BodyManager playerBody, bool isLeft)
     {
         float eficienta = 1.0f;
@@ -49,6 +59,9 @@ public class DodgeAbilityModule : AbilityModule
         ActivateAdditionalInfo(BoneBtn, ability, ability.boneRequired);
     }
 
+    /// <summary>
+    /// Reseteaza toate elementele de text la un sir gol pentru a curata interfata
+    /// </summary>
     public override void DeleteInfo()
     {
         title.text = "";

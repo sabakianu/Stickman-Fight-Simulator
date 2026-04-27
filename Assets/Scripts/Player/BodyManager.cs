@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // fiecare parte a corpului are cate un layer
+/// <summary>
+/// Container pentru partile anatomice grupate pe zone specifice ale corpului
+/// </summary>
 [System.Serializable]
 public class BodyZoneContainer
 {
@@ -39,12 +42,19 @@ public class BodyManager : MonoBehaviour
 
     [HideInInspector] public bool isKO;
 
+    /// <summary>
+    /// Initializeaza referintele catre modulele de combat si vitale
+    /// </summary>
     void Awake()
     {
         combat = GetComponent<BodyCombat>();
         vitals = GetComponent<BodyVitals>();
         isKO = false;
     }
+
+    /// <summary>
+    /// Reseteaza corpul si configureaza valorile initiale pentru stamina si UI
+    /// </summary>
     void Start()
     {
         resetBody();
@@ -53,6 +63,9 @@ public class BodyManager : MonoBehaviour
         vitals.setBars();
     }
 
+    /// <summary>
+    /// Bucla principala care proceseaza durerea, sangerarea si efectele organelor in fiecare cadru
+    /// </summary>
     void Update()
     {
         float dt = Time.deltaTime;
@@ -71,7 +84,9 @@ public class BodyManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Readuce toate partile corpului si volumul de sange la starea initiala
+    /// </summary>
     private void resetBody()
     {
         blood.resetPart();
@@ -83,7 +98,11 @@ public class BodyManager : MonoBehaviour
         resetZone(rightLeg);
 
     }
+
     // ia zona in care se executa atacul
+    /// <summary>
+    /// Returneaza containerul corespunzator unei zone si parti specifice
+    /// </summary>
     public BodyZoneContainer FindBodyPart(BodyZone zone, bool lookForLeft = true)
     {
         if (zone == BodyZone.Head) return head;
@@ -96,7 +115,9 @@ public class BodyManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Calculeaza sangerarea totala din toate zonele si scade volumul din rezerva centrala de sange
+    /// </summary>
     private void BleedSystem(float dt)
     {
         if (blood == null) return;
@@ -113,6 +134,10 @@ public class BodyManager : MonoBehaviour
         // Trimitem rata totală către BloodPartData pentru a scădea volumul
         blood.Bleed(totalBleedRate, dt);
     }
+
+    /// <summary>
+    /// Reseteaza toate listele de componente dintr-o zona specifica
+    /// </summary>
     private void resetZone(BodyZoneContainer zone)
     {
         foreach (var m in zone.muscles)
@@ -129,6 +154,9 @@ public class BodyManager : MonoBehaviour
                 o.resetPart();
     }
 
+    /// <summary>
+    /// Proceseaza diminuarea durerii pentru toate componentele dintr-o zona
+    /// </summary>
     private void processPainZone(BodyZoneContainer zone, float dt)
     {
         foreach (var m in zone.muscles)
@@ -148,6 +176,9 @@ public class BodyManager : MonoBehaviour
                 o.processPainPart(dt);
     }
 
+    /// <summary>
+    /// Calculeaza coagularea si returneaza rata de sangerare cumulata a unei zone
+    /// </summary>
     private float processBleedingZone(BodyZoneContainer zone, float dt)
     {
         float totalZoneBleeding = 0;
@@ -176,6 +207,9 @@ public class BodyManager : MonoBehaviour
         return totalZoneBleeding;
     }
 
+    /// <summary>
+    /// Determina zona tinta in functie de partea atacatorului si relatia (SameSide/OppositeSide)
+    /// </summary>
     public BodyZoneContainer GetZoneRequirement(BodyZone zone, RelativeSide side, bool attackerIsLeft)
     {
         // zona centrala
@@ -207,7 +241,9 @@ public class BodyManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Aplica penalizari asupra staminei si coagularii in functie de sanatatea inimii, plamanilor si ficatului
+    /// </summary>
     private void ProcessOrganEffects()
     {
         // inima
@@ -248,7 +284,10 @@ public class BodyManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Calculeaza nivelul de constienta bazat pe HP-ul creierului, volumul de sange si durerea globala
+    /// </summary>
+    /// <returns>Valoarea constientei intre 0 si 100</returns>
     public float GetCurrentConsciousness()
     {
         var brain = head.organs.Find(o => o != null && o.name.Contains("Brain"));

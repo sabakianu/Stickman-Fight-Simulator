@@ -16,13 +16,17 @@ public class PlayerScript : MonoBehaviour
     private Coroutine combatRoutine;
     private Animator animator;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Initializeaza referinta catre animator la inceputul jocului
+    /// </summary>
     void Start()
     {
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Actualizeaza starea animatorului in functie de modul de lupta activ
+    /// </summary>
     void Update()
     {
         if (fightMode == true)
@@ -37,6 +41,11 @@ public class PlayerScript : MonoBehaviour
     }
 
     public SideAbility currentMove;
+
+    /// <summary>
+    /// Detecteaza inamicii intr-o raza circulara si aplica logica de atac bazata pe sansa de lovire si eficienta muschilor
+    /// </summary>
+    /// <param name="sideInt">Indexul directiei de atac</param>
     public void attack(int sideInt) //ataca inamicul
     {
         bool isLeft = currentMove.isLeft;
@@ -68,11 +77,18 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Deseneaza raza de atac in editorul Unity pentru o configurare vizuala mai usoara
+    /// </summary>
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(AttackPoint.transform.position, radius);
     }
 
+    /// <summary>
+    /// Porneste procesul automat de lupta si asigura oprirea oricarei rutine anterioare
+    /// </summary>
+    /// <param name="deck">Lista de abilitati selectate pentru faza de lupta</param>
     public void StartAutoCombat(List<SideAbility> deck)
     {
         if (combatRoutine != null) //elimina courutina veche sa facem loc la deck ul curent
@@ -83,6 +99,9 @@ public class PlayerScript : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Corutina care parcurge deck-ul de abilitati si le executa in functie de tip (Atac, Dodge, Defense) si stamina disponibila
+    /// </summary>
     private IEnumerator CombatRoutine(List<SideAbility> deck)
     {
         if (deck.Count == 0) yield break;

@@ -11,10 +11,17 @@ public class Timer : MonoBehaviour
     private bool hasFinished = true;
     public event Action OnTimerFinished;
 
+    /// <summary>
+    /// Initializeaza timpul la 0 la pornirea obiectului
+    /// </summary>
     private void Start()
     {
         remainingTime = 0;
     }
+
+    /// <summary>
+    /// Gestioneaza numaratoarea inversa si declanseaza evenimentul de final cand timpul expira
+    /// </summary>
     void Update()
     {
         if (remainingTime > 0)
@@ -31,9 +38,21 @@ public class Timer : MonoBehaviour
         timerText.text = $"{seconds:00}";
     }
 
+    /// <summary>
+    /// Porneste cronometrul cu o durata de 15 secunde
+    /// </summary>
     public void startTimer()
     {
         remainingTime = 15;
         hasFinished = false;
+    }
+
+    /// <summary>
+    /// Opreste fortat cronometrul
+    /// </summary>
+    public void StopTimer()
+    {
+        remainingTime = 0;
+        hasFinished = true;
     }
 }

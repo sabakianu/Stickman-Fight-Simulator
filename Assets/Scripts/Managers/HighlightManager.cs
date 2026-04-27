@@ -10,27 +10,36 @@ public class HighlightManager : MonoBehaviour
     public static HighlightManager Instance;
 
     [SerializeField] Tooltip ToolTip;
+
+    /// <summary>
+    /// Seteaza instanta Singleton pentru a permite accesul global din alte scripturi (ex: BodyHitbox)
+    /// </summary>
     void Awake()
     {
         Instance = this;
     }
 
+    /// <summary>
+    /// Se asigura ca cursorul mouse-ului este vizibil la inceputul scenei
+    /// </summary>
     private void Start()
     {
         Cursor.visible = true;
     }
 
-    private void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// Activeaza Tooltip-ul si ii transmite mesajul care trebuie afisat
+    /// </summary>
+    /// <param name="message">Continutul textului preluat de obicei din BodyPartData</param>
     public void Show(string message)
     {
         ToolTip.setMessage(message);
         ToolTip.Toggle(true);
     }
 
+    /// <summary>
+    /// Dezactiveaza Tooltip-ul si curata continutul acestuia
+    /// </summary>
     public void Hide()
     {
         ToolTip.Empty();

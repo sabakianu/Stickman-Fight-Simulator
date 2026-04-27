@@ -6,6 +6,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Reprezinta o abilitate selectata impreuna cu partea corpului pe care va fi executata
+/// </summary>
 [System.Serializable]
 public class SideAbility
 {
@@ -44,11 +47,18 @@ public class StrategySelectorManager : MonoBehaviour
     [SerializeField] AbilityModule blockModule;
 
     private int pinnedIndex = -1; // -1 ca nu e nmk pinned , daca da e index
+
+    /// <summary>
+    /// Seteaza instanta Singleton pentru acces global
+    /// </summary>
     private void Awake()
     {
         Instance = this;
     }
 
+    /// <summary>
+    /// Initializeaza butoanele disponibile si aboneaza metodele la evenimentele de click, hover si pin
+    /// </summary>
     private void Start()
     {
         buttons = AvailableMoves.GetComponentsInChildren<AvalabileMoveButton>();
@@ -96,6 +106,10 @@ public class StrategySelectorManager : MonoBehaviour
             }
         });
     }
+
+    /// <summary>
+    /// Fixeaza sau elibereaza panoul de informatii pentru o anumita abilitate
+    /// </summary>
     private void TogglePin(int index)
     {
         if (pinnedIndex == index)
@@ -112,6 +126,10 @@ public class StrategySelectorManager : MonoBehaviour
             AdditionalInfo.SetActive(false);
         }
     }
+
+    /// <summary>
+    /// Instantiaza un buton nou in deck-ul curent si configureaza datele abilitatii
+    /// </summary>
     private bool AddSelectedMove(int moveIndex) //adauga buton in deck
     {
         if (CurrentDeckIndex >= MaxDeck) return false;
@@ -139,6 +157,9 @@ public class StrategySelectorManager : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Sterge o miscare din deck si reordoneaza restul butoanelor pentru a umple golul
+    /// </summary>
     private void UnselectMove(int moveIndex) // sterge buton din deck
     {
         Transform ButtonSlotToDelete = CurrentDeck.transform.GetChild(moveIndex);
@@ -167,6 +188,10 @@ public class StrategySelectorManager : MonoBehaviour
         }
         CurrentDeckIndex--;
     }
+
+    /// <summary>
+    /// Activeaza modulul corespunzator (Atac/Dodge/Block) si populeaza datele pentru afisare
+    /// </summary>
     private void DisplayInfo(int index)
     {
         Transform moveSlotTransform = AvailableMoves.transform.GetChild(index); // transform e de pozitie si ierarhie
@@ -203,6 +228,10 @@ public class StrategySelectorManager : MonoBehaviour
 
         ToggleIcon.SetActive(true);
     }
+
+    /// <summary>
+    /// Curata informatiile afisate si reseteaza aspectul modulelor de info
+    /// </summary>
     private void DeleteInfoDisplayed(int Index)
     {
         Image img = Instance.Displayed_ItemImage.GetComponent<Image>();
@@ -218,6 +247,9 @@ public class StrategySelectorManager : MonoBehaviour
         AdditionalInfo.SetActive(false);
     }
 
+    /// <summary>
+    /// Actualizeaza panoul final de abilitati selectate inainte de inceperea luptei
+    /// </summary>
     public void ShowSelectedAbilities()
     {
         for (int i = 0; i < 5; i++)
@@ -246,6 +278,9 @@ public class StrategySelectorManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returneaza lista de abilitati selectate pentru a fi trimisa catre sistemul de lupta (PlayerScript)
+    /// </summary>
     public List<SideAbility> GetCurrentDeck()
     {
         List<SideAbility> chosenAbilities = new List<SideAbility>();
