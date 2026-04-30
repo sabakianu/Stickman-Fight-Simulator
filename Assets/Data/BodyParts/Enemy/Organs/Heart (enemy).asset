@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Heart
   maxHP: 50
-  currentHP: 50
+  currentHP: 0
   painLevel: 0
   painCoefficient: 4
   initialDurability: 0.2
@@ -22,5 +22,4 @@ MonoBehaviour:
   bleedRate: 0
   minBleedRate: 0
   maxBleedRate: 0
-  functionLevel: 100
   state: 0

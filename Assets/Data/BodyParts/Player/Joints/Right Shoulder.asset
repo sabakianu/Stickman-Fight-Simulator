@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Right Shoulder
   maxHP: 130
-  currentHP: 129.80095
+  currentHP: 130
   painLevel: 0
   painCoefficient: 1.8
   initialDurability: 0.7
@@ -25,5 +25,5 @@ MonoBehaviour:
   initialMobility: 1
   currentMobility: 1
   initialStability: 1
-  currentStability: 0
+  currentStability: 1
   state: 0

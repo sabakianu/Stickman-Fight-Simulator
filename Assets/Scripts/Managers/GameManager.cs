@@ -4,21 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState State;
     public static event Action<GameState> OnStatechanged;
-    public GameObject FightLogo;
-    public GameObject KOPopup;
-    public Timer timer;
+
     public Panel StrategyPanel;
     public PhaseButton PhaseButton;
+
     [Header("Players")]
     public GameObject player;
     public GameObject enemy;
 
+    [Header("Ui Elements")]
+    public GameObject FightLogo;
+    public GameObject KOPopup;
+    public Timer timer;
+    public GameObject WinnerPopUp;
     private EnemyAI enemyAI;
     private PlayerScript playerAI;
 
@@ -29,6 +34,9 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         StrategyPanel.HidePanel();
+
+        KOPopup.SetActive(false);
+        FightLogo.SetActive(false);
 
         playerAI = player.GetComponent<PlayerScript>();
         enemyAI = enemy.GetComponent<EnemyAI>();
@@ -41,7 +49,7 @@ public class GameManager : MonoBehaviour
     {
         if (State == GameState.Running)
         {
-            CheckForKO();
+            WinnerPopUp.GetComponent<TextMeshProUGUI>().text = CheckForKO();
         }
     }
 
@@ -63,6 +71,11 @@ public class GameManager : MonoBehaviour
                 enemyAI.ChooseDeck();
                 StrategyPanel.ShowPanel();
                 Time.timeScale = 0f;
+                // Luăm managerul de corp al player-ului
+                BodyManager pBody = player.GetComponent<BodyManager>();
+
+                // Îl pasăm ca parametru - curat și eficient
+                StrategySelectorManager.Instance.RefreshDeckValidity(pBody);
                 break;
             case GameState.Running:
                 timer.startTimer();
@@ -107,13 +120,14 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndGameSequence()
     {
         timer.StopTimer();
-        //playerAI.StopAutoCombat();
-        //enemyAI.StopEnemyRound();
+        playerAI.StopAutoCombat();
+        enemyAI.getFighter().StopAutoCombat();
         //oprim combatul
 
         if (KOPopup != null)
         {
             KOPopup.SetActive(true);
+            WinnerPopUp.SetActive(true);
         }
 
         yield return new WaitForSecondsRealtime(3f); // 3 secunde pauza
@@ -146,21 +160,28 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Interogheaza starea de KO a ambilor luptatori si decide castigatorul meciului
     /// </summary>
-    private void CheckForKO()
+    private string CheckForKO()
     {
         BodyManager playerManager = player.GetComponent<BodyManager>();
         BodyManager enemyManager = enemy.GetComponent<BodyManager>();
+        string winner = "";
 
         bool playerKO = playerManager.isKO;
         bool enemyKO = enemyManager.isKO;
 
-        if (playerKO || enemyKO)
+        if (playerManager.isKO)
         {
-            string winner = playerKO ? "Enemy Wins!" : "Player Wins!";
-            Debug.Log("Meci terminat: " + winner);
-
+            player.GetComponent<Animator>().SetBool("KO", true);
             UpdateGameState(GameState.End);
+            winner = "Enemy Won!";
         }
+        if (enemyManager.isKO)
+        {
+            enemy.GetComponent<Animator>().SetBool("KO", true);
+            UpdateGameState(GameState.End);
+            winner = "You Won!";
+        }
+        return winner;
     }
 }
 

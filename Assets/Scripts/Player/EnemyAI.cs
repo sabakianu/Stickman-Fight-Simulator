@@ -74,4 +74,9 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
+    public PlayerScript getFighter()
+    {
+        return fighter;
+    }
 }

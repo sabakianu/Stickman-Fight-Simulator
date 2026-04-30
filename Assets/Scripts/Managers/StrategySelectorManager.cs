@@ -299,4 +299,30 @@ public class StrategySelectorManager : MonoBehaviour
         }
         return chosenAbilities;
     }
+
+
+    /// <summary>
+    /// Verifică deck-ul daca are abilitati care nu mai sunt valabile si le scoate 
+    /// </summary>
+    public void RefreshDeckValidity(BodyManager playerBody)
+    {
+        if (playerBody == null)
+        {
+            for (int i = CurrentDeckIndex - 1; i >= 0; i--)
+            {
+                Transform slot = CurrentDeck.transform.GetChild(i);
+                if (slot.childCount > 0)
+                {
+                    SelectedMoveButton card = slot.GetChild(0).GetComponent<SelectedMoveButton>();
+
+                    if (!playerBody.combat.CanExecuteAbility(card.ability, card.isLeft))
+                    {
+                        Debug.Log($"Sistem: Executăm 'click' automat pe {card.ability.name}");
+
+                        card.DeleteThisButton();
+                    }
+                }
+            }
+        }
+    }
 }

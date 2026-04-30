@@ -14,14 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Blood
   maxHP: 10000
-  currentHP: 0
+  currentHP: 10000
   painLevel: 0
   painCoefficient: 0
   initialDurability: 0
   currentDurability: 0
   bleedRate: 0
-  minBleedRate: 40
-  maxBleedRate: 40
-  functionLevel: 0
-  state: 3
-  coagulationSpeed: 0.2
+  minBleedRate: 0
+  maxBleedRate: 0
+  state: 0
+  coagulationSpeed: 0.5

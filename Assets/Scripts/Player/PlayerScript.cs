@@ -91,12 +91,18 @@ public class PlayerScript : MonoBehaviour
     /// <param name="deck">Lista de abilitati selectate pentru faza de lupta</param>
     public void StartAutoCombat(List<SideAbility> deck)
     {
-        if (combatRoutine != null) //elimina courutina veche sa facem loc la deck ul curent
-        {
-            StopCoroutine(combatRoutine);
-        }
+        StopAutoCombat(); //elimina courutina veche sa facem loc la deck ul curent
         combatRoutine = StartCoroutine(CombatRoutine(deck));
 
+    }
+
+    public void StopAutoCombat()
+    {
+        if (combatRoutine != null)
+        {
+            StopCoroutine(combatRoutine);
+            combatRoutine = null;
+        }
     }
 
     /// <summary>
