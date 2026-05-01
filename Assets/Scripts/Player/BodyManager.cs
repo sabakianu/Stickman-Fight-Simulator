@@ -311,4 +311,45 @@ public class BodyManager : MonoBehaviour
 
         return Mathf.Clamp(currentC, 0f, 100f);
     }
+
+    /// <summary>
+    /// Calculeaza procentul de viata dintr o zona anume
+    /// </summary>
+    public float GetZoneHealthPercent(BodyZoneContainer zone)
+    {
+        if (zone == null)
+            return 1f;
+
+        float currentHP = 0;
+        float maxHP = 0;
+
+        foreach (var m in zone.muscles)
+        {
+            currentHP += m.getCurrentHP();
+            maxHP += m.getMaxHP();
+        }
+
+        foreach (var b in zone.bones)
+        {
+            currentHP += b.getCurrentHP();
+            maxHP += b.getMaxHP();
+        }
+
+        foreach (var j in zone.joints)
+        {
+            currentHP += j.getCurrentHP();
+            maxHP += j.getMaxHP();
+        }
+
+        foreach (var o in zone.organs)
+        {
+            currentHP += o.getCurrentHP();
+            maxHP += o.getMaxHP();
+        }
+
+        if (maxHP <= 0)
+            return 1f;
+
+        return Mathf.Clamp01(currentHP / maxHP);
+    }
 }

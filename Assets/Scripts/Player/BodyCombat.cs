@@ -440,7 +440,6 @@ public class BodyCombat : MonoBehaviour
         {
             // block spart
             eficienta = finalRezistance / attackerDamage;
-            Debug.Log($"BLOCK BROKEN! Atac: {attackerDamage} | Rezistență: {finalRezistance}");
         }
 
         // DamageFinal = BaseDamage * (1 - (BlockValue * Efficiency))

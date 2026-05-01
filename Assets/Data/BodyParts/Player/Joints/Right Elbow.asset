@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Right Elbow
   maxHP: 110
-  currentHP: 110
+  currentHP: 109.96978
   painLevel: 0
   painCoefficient: 2
   initialDurability: 0.6

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -123,15 +124,24 @@ public class PlayerScript : MonoBehaviour
 
             if (canAttack)
             {
-                // miscare random
-                int randomIndex = UnityEngine.Random.Range(0, deck.Count);
-                currentMove = deck[randomIndex];
+                // detectam inamicul sa il vedem
+                Collider2D hit = Physics2D.OverlapCircle(AttackPoint.transform.position, radius, enemies);
+                PlayerScript opponentScript = null;
+                BodyManager opponentBody = null;
+                SideAbility opponentMove = null;
 
-                while (myBody.vitals.staminaReq(currentMove.ability.energyCost) == false)
+                if (hit != null)
                 {
-                    randomIndex = UnityEngine.Random.Range(0, deck.Count);
-                    currentMove = deck[randomIndex];
+                    opponentBody = hit.GetComponent<BodyManager>();
+                    opponentScript = hit.GetComponent<PlayerScript>();
+
+                    //ce miscare are atunci
+                    if (opponentScript != null)
+                        opponentMove = opponentScript.currentMove;
                 }
+
+                // ce miscare folosim
+                currentMove = GetBestMove(opponentMove, deck, myBody, opponentBody);
 
                 if (currentMove.ability.type == AbilityType.Dodge)
                 {
@@ -166,6 +176,151 @@ public class PlayerScript : MonoBehaviour
             yield return new WaitForSeconds(attackCooldown);
             timer += attackCooldown;
         }
+    }
+
+    private float CalculateMoveScore(SideAbility move, BodyManager myBody, BodyManager enemyBody)
+    {
+        float score = 0;
+        float myHealthRatio = myBody.blood.getCurrentHP() / myBody.blood.getMaxHP();
+
+        // ratie stamina
+        float currentStamina = myBody.vitals.currentStamina;
+        float staminaRatio = currentStamina / myBody.vitals.maxStamina;
+
+        // stamina insuficienta
+        if (currentStamina < move.ability.energyCost)
+            return -1000f;
+
+        // abilitate nu mai e disponibila
+        if (!myBody.combat.CanExecuteAbility(move.ability, move.isLeft))
+            return -1000f;
+
+        // stamina e sub 30%: abilitatile scumpe primesc o penalizare (pt economie stamina)
+        if (staminaRatio < 0.3f && move.ability.energyCost > 15f)
+        {
+            // cu cat e mai scumpă abilitatea si mai mica stamina, scorul scade mai mult
+            score -= move.ability.energyCost * (1f - staminaRatio) * 2f;
+        }
+
+        //cand stamina e mica avem miscari ieftine
+        if (staminaRatio < 0.5f && move.ability.energyCost < 10f)
+        {
+            score += 20f;
+        }
+
+        // atac
+        if (move.ability.type == AbilityType.Attack)
+        {
+            float hitChance = myBody.combat.CalculateHitChance(move.ability, move.isLeft, enemyBody);
+            score += hitChance * 60f;
+
+            float power = myBody.combat.CalculateTotalPower(move.ability, move.isLeft);
+            score += power * 40f;
+
+            BodyZoneContainer targetZone = enemyBody.FindBodyPart(move.ability.targetZone, move.isLeft);
+            float zoneHealth = myBody.GetZoneHealthPercent(targetZone);
+            score += (1f - zoneHealth) * 50f;
+
+            score *= myHealthRatio;
+        }
+        // aparare/dodge
+        else
+        {
+            float defenseEff = 0;
+            if (move.ability.type == AbilityType.Defense)
+                defenseEff = myBody.combat.CalculateBlockEffectiveness(null, 50f, move.ability);
+            else if (move.ability.type == AbilityType.Dodge)
+                defenseEff = myBody.combat.CalculateDodgeEffectiveness(move.ability, move.isLeft);
+
+            score += defenseEff * 100f;
+            score += (1f - myHealthRatio) * 80f;
+        }
+
+        score += Random.Range(0f, 10f);
+        return score;
+    }
+
+    public SideAbility GetBestMove(SideAbility opponentMove, List<SideAbility> hand, BodyManager myBody, BodyManager opponentBody)
+    {
+        SideAbility winner = null;
+        float topScore = -2000f;
+        string debugMessage = $"<b>[LOG DECIZIE - {gameObject.name}]</b>\n";
+
+        if (opponentMove != null && opponentMove.ability != null)
+            debugMessage += $"<color=orange>Oponentul face: {opponentMove.ability.name} ({opponentMove.ability.type}) la {opponentMove.ability.targetZone}</color>\n";
+        else
+            debugMessage += "<color=grey>Oponentul nu face nimic (atacă primul)</color>\n";
+
+        foreach (SideAbility move in hand)
+        {
+            // scorul abilitatii
+            float currentScore = CalculateMoveScore(move, myBody, opponentBody);
+
+            //daca nu e bun , next one
+            if (currentScore < -500f)
+                continue;
+
+            string counterLog = "";
+
+            if (opponentMove != null && opponentMove.ability != null)
+            {
+                // daca unul ataca, verifica apararea
+                if (opponentMove.ability.type == AbilityType.Attack)
+                {
+                    if (move.ability.type == AbilityType.Defense)
+                    {
+                        // daca au acelasi targrt block ul
+                        if (move.ability.targetZone == opponentMove.ability.targetZone)
+                        {
+                            currentScore += 130f;
+                            counterLog = " <color=green>[BLOCK PERFECT]</color>";
+                        }
+                    }
+                    else if (move.ability.type == AbilityType.Dodge)
+                    {
+                        //urca dodge ul
+                        currentScore += 110f;
+                        counterLog = " <color=cyan>[DODGE]</color>";
+                    }
+
+                    // ataca si el
+                    if (move.ability.type == AbilityType.Attack)
+                    {
+                        currentScore += 20f;
+                        counterLog = " <color=red>[PENALIZARE GARDĂ]</color>";
+                    }
+                }
+
+                // daca inamicul se apara
+                else if (opponentMove.ability.type == AbilityType.Defense)
+                {
+                    if (move.ability.type == AbilityType.Attack && move.ability.targetZone == opponentMove.ability.targetZone)
+                    {
+                        currentScore -= 70f; // penalizare ca apara fix zona aia
+                    }
+                }
+            }
+
+            //zgomot
+            currentScore += Random.Range(-10f, 10f);
+
+            debugMessage += $"- {move.ability.name}: Scor {currentScore:F1}{counterLog}\n";
+
+            // cel mai bun scor
+            if (currentScore > topScore)
+            {
+                topScore = currentScore;
+                winner = move;
+            }
+        }
+
+        if (winner != null)
+        {
+            debugMessage += $"<color=yellow>CÂȘTIGĂTOR: {winner.ability.name} cu scor {topScore:F1}</color>";
+            Debug.Log(debugMessage); // Printăm tot procesul de gândire o singură dată
+        }
+
+        return winner;
     }
 }
 

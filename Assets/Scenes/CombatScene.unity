@@ -14825,7 +14825,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilities:
-  - ability: {fileID: 11400000, guid: 24db5a2f6cd69984eb6dbfb2c5d41a20, type: 2}
+  - ability: {fileID: 11400000, guid: 3ad277bbd54acaa4c80f1b0540147482, type: 2}
+    isLeft: 1
+  - ability: {fileID: 11400000, guid: 15c71711b008962409d54ce814a9fc17, type: 2}
     isLeft: 1
   deck: []
   EnemyAbilityPanel: {fileID: 1696525255}

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Right Knee
   maxHP: 150
-  currentHP: 150
-  painLevel: 0
+  currentHP: 141.64172
+  painLevel: 89.980064
   painCoefficient: 2.5
   initialDurability: 0.75
   currentDurability: 0.75
