@@ -178,7 +178,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    private float CalculateMoveScore(SideAbility move, BodyManager myBody, BodyManager enemyBody)
+    public float CalculateMoveScore(SideAbility move, BodyManager myBody, BodyManager enemyBody)
     {
         float score = 0;
         float myHealthRatio = myBody.blood.getCurrentHP() / myBody.blood.getMaxHP();
@@ -244,12 +244,6 @@ public class PlayerScript : MonoBehaviour
     {
         SideAbility winner = null;
         float topScore = -2000f;
-        string debugMessage = $"<b>[LOG DECIZIE - {gameObject.name}]</b>\n";
-
-        if (opponentMove != null && opponentMove.ability != null)
-            debugMessage += $"<color=orange>Oponentul face: {opponentMove.ability.name} ({opponentMove.ability.type}) la {opponentMove.ability.targetZone}</color>\n";
-        else
-            debugMessage += "<color=grey>Oponentul nu face nimic (atacă primul)</color>\n";
 
         foreach (SideAbility move in hand)
         {
@@ -259,8 +253,6 @@ public class PlayerScript : MonoBehaviour
             //daca nu e bun , next one
             if (currentScore < -500f)
                 continue;
-
-            string counterLog = "";
 
             if (opponentMove != null && opponentMove.ability != null)
             {
@@ -273,21 +265,18 @@ public class PlayerScript : MonoBehaviour
                         if (move.ability.targetZone == opponentMove.ability.targetZone)
                         {
                             currentScore += 130f;
-                            counterLog = " <color=green>[BLOCK PERFECT]</color>";
                         }
                     }
                     else if (move.ability.type == AbilityType.Dodge)
                     {
                         //urca dodge ul
                         currentScore += 110f;
-                        counterLog = " <color=cyan>[DODGE]</color>";
                     }
 
                     // ataca si el
                     if (move.ability.type == AbilityType.Attack)
                     {
                         currentScore += 20f;
-                        counterLog = " <color=red>[PENALIZARE GARDĂ]</color>";
                     }
                 }
 
@@ -304,20 +293,12 @@ public class PlayerScript : MonoBehaviour
             //zgomot
             currentScore += Random.Range(-10f, 10f);
 
-            debugMessage += $"- {move.ability.name}: Scor {currentScore:F1}{counterLog}\n";
-
             // cel mai bun scor
             if (currentScore > topScore)
             {
                 topScore = currentScore;
                 winner = move;
             }
-        }
-
-        if (winner != null)
-        {
-            debugMessage += $"<color=yellow>CÂȘTIGĂTOR: {winner.ability.name} cu scor {topScore:F1}</color>";
-            Debug.Log(debugMessage); // Printăm tot procesul de gândire o singură dată
         }
 
         return winner;

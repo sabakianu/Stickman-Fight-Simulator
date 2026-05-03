@@ -33,6 +33,7 @@ public class Timer : MonoBehaviour
             remainingTime = 0;
             hasFinished = true;
             OnTimerFinished?.Invoke();
+            GameManager.Instance.EndRunningPhase();
         }
         int seconds = Mathf.FloorToInt(remainingTime % 60);
         timerText.text = $"{seconds:00}";

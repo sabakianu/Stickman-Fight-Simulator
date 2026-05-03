@@ -114,6 +114,14 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.Strategy);
     }
 
+    public void EndRunningPhase()
+    {
+        //deck ul playerului
+        List<SideAbility> playerMovesUsed = StrategySelectorManager.Instance.GetCurrentDeck();
+
+        enemyAI.RecordPlayerMoves(playerMovesUsed);
+    }
+
     /// <summary>
     /// Corutina pentru finalizarea meciului, afisarea popup-ului de KO si revenirea la meniul principal
     /// </summary>

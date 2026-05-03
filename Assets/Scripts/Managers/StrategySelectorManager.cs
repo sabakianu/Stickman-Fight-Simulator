@@ -256,7 +256,7 @@ public class StrategySelectorManager : MonoBehaviour
         {
             Transform display = PlayerAbilitySelected.transform.GetChild(i);
             Image image = display.GetComponent<Image>();
-            TMPro.TextMeshProUGUI sideText = display.GetComponentInChildren<TMPro.TextMeshProUGUI>(); //textul de side
+            TextMeshProUGUI sideText = display.GetComponentInChildren<TextMeshProUGUI>(); //textul de side
             if (i < CurrentDeckIndex)
             {
 
