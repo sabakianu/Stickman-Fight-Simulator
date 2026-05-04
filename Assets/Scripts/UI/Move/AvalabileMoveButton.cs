@@ -126,4 +126,30 @@ public class AvalabileMoveButton : MonoBehaviour, IPointerClickHandler
             RightClicked?.Invoke();
         }
     }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Redenumeste parintele (MoveSlot) in numele abilitatii
+    /// </summary>
+    private void OnValidate()
+    {
+        if (ability != null)
+        {
+            gameObject.name = "MoveButton_" + ability.name;
+
+            if (transform.parent != null)
+            {
+                transform.parent.name = ability.name;
+            }
+        }
+        else
+        {
+            gameObject.name = "MoveButton";
+            if (transform.parent != null)
+            {
+                transform.parent.name = "MoveSlot";
+            }
+        }
+    }
+#endif
 }
