@@ -7,7 +7,6 @@ public class MusclePartData : BodyPartData
 {
     [Header("Muscle")]
     [SerializeField] float strength;
-    [SerializeField] float endurance;
     [Header("State")]
     [SerializeField] MuscleState state = MuscleState.Healthy;
 
@@ -19,7 +18,6 @@ public class MusclePartData : BodyPartData
         string info = string.Empty;
         info += base.GetInfo();
         info += "<color=#3CB371>Strength: " + strength + "</color>\n";
-        info += "<color=#3CB371>Endurance: " + endurance + "</color>\n";
         info += "<color=#FFD700>State: " + state.ToString() + "</color>\n";
 
         return info;
