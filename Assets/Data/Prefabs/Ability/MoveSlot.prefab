@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability: {fileID: 0}
+  sideToggle: {fileID: 0}
+  body: {fileID: 0}
 --- !u!114 &991459711178178045
 MonoBehaviour:
   m_ObjectHideFlags: 0

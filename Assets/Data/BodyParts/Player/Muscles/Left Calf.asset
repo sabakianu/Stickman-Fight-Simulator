@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Left Calf
   maxHP: 100
-  currentHP: 79.76882
+  currentHP: 100
   painLevel: 0
   painCoefficient: 0.6
   initialDurability: 0.5

@@ -29,7 +29,7 @@ public class BodyCombat : MonoBehaviour
     /// <param name="attacker">Referinta catre atacator pentru aplicarea reculului</param>
     public void ApplyHitStats(Ability move, bool isLeft, float attackerEfficiency, BodyManager attacker) //afecteaza zonele jucatorului
     {
-        BodyZoneContainer target = body.FindBodyPart(move.targetZone, isLeft);
+        BodyZoneContainer target = body.FindBodyPart(move.targetZone, !isLeft);
         float rawDamage = Random.Range(move.minDamage, move.maxDamage) * attackerEfficiency;
         float penetration = move.penetration;
         // luam datele zona , damage penetration
@@ -270,7 +270,7 @@ public class BodyCombat : MonoBehaviour
 
         finalSpeed = Mathf.Round(finalSpeed * 10f) / 10f; // rotunjim
 
-        return Mathf.Max(0.2f, finalSpeed); // nu lasam viteza sub 20%
+        return Mathf.Max(0.5f, finalSpeed); // nu lasam viteza sub 50%
     }
 
     /// <summary>

@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Left Foot
   maxHP: 60
-  currentHP: 30.910025
-  painLevel: 4.747604
+  currentHP: 60
+  painLevel: 0
   painCoefficient: 1.5
   initialDurability: 0.3
-  currentDurability: 0.15
-  bleedRate: 0.2
-  minBleedRate: 0.2
-  maxBleedRate: 0.5
+  currentDurability: 0.3
+  bleedRate: 0
+  minBleedRate: 0
+  maxBleedRate: 0
   fatigue: 0
   strength: 0.5
   endurance: 50
-  state: 1
+  state: 0

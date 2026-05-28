@@ -3967,6 +3967,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Elbow Strike
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -3981,7 +3985,7 @@ PrefabInstance:
       objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot (3)
+      value: Elbow Strike
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -6974,6 +6978,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Dodge
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -6988,7 +6996,7 @@ PrefabInstance:
       objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot
+      value: Dodge
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -7358,6 +7366,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Flying Knee Kick
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -7372,7 +7384,7 @@ PrefabInstance:
       objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot
+      value: Flying Knee Kick
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -9732,6 +9744,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Round Kick
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -9746,7 +9762,7 @@ PrefabInstance:
       objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot (2)
+      value: Round Kick
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -10293,6 +10309,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_High Kick
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -10307,7 +10327,7 @@ PrefabInstance:
       objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot (1)
+      value: High Kick
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -11123,6 +11143,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Punch
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -11141,7 +11165,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: fb3b53487b18c344a8897a674a51638a, type: 2}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot
+      value: Punch
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -12918,6 +12942,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Low Kick
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -12932,7 +12960,7 @@ PrefabInstance:
       objectReference: {fileID: 1484484408}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot
+      value: Low Kick
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -14824,12 +14852,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e5f331af9506f5409143320c42056b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilities:
-  - ability: {fileID: 11400000, guid: 3ad277bbd54acaa4c80f1b0540147482, type: 2}
-    isLeft: 1
-  - ability: {fileID: 11400000, guid: 15c71711b008962409d54ce814a9fc17, type: 2}
-    isLeft: 1
+  baseAbilities:
+  - {fileID: 11400000, guid: 15c71711b008962409d54ce814a9fc17, type: 2}
+  - {fileID: 11400000, guid: 3ad277bbd54acaa4c80f1b0540147482, type: 2}
+  - {fileID: 11400000, guid: a2ac5579b8a213b4a9d11ba430378331, type: 2}
+  - {fileID: 11400000, guid: 0bd1a2908a5cca647beadbff5bba6a25, type: 2}
+  - {fileID: 11400000, guid: 8ca11bf3284acaf46973fc62c7583ad9, type: 2}
+  - {fileID: 11400000, guid: 24db5a2f6cd69984eb6dbfb2c5d41a20, type: 2}
+  - {fileID: 11400000, guid: fb3b53487b18c344a8897a674a51638a, type: 2}
+  - {fileID: 11400000, guid: 4bb20a1fa7fb62e42bc77a69877cdb3a, type: 2}
+  - {fileID: 11400000, guid: 781d11ed8a28a3647b0ba2eb7fd52aee, type: 2}
   deck: []
+  lastPlayerDeck: []
   EnemyAbilityPanel: {fileID: 1696525255}
 --- !u!1 &2091112534
 GameObject:
@@ -14973,6 +15007,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Uppercut
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -14991,7 +15029,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 781d11ed8a28a3647b0ba2eb7fd52aee, type: 2}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot
+      value: Uppercut
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x
@@ -16447,6 +16485,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 264169021}
     m_Modifications:
+    - target: {fileID: 371922853650141746, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
+      propertyPath: m_Name
+      value: MoveButton_Block
+      objectReference: {fileID: 0}
     - target: {fileID: 1829009138427554911, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: body
       value: 
@@ -16465,7 +16507,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 15c71711b008962409d54ce814a9fc17, type: 2}
     - target: {fileID: 5805968041024640118, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Name
-      value: MoveSlot
+      value: Block
       objectReference: {fileID: 0}
     - target: {fileID: 8196179674288486958, guid: 0feaec071a1282142a7ea7673361698e, type: 3}
       propertyPath: m_Pivot.x

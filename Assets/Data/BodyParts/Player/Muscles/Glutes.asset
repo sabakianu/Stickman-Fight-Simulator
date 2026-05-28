@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartName: Glutes
   maxHP: 200
-  currentHP: 195.95375
+  currentHP: 200
   painLevel: 0
   painCoefficient: 0.4
   initialDurability: 0.9
